@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="ps_bg">#FF0C0D14</color>
+    <color name="ps_card">#FF161824</color>
+    <color name="ps_card_inner">#FF1E2130</color>
+    <color name="ps_card_stroke">#FF2A2D42</color>
+
+    <!-- Màu xanh PlayStation -->
+    <color name="ps_blue">#FF00439C</color>
+    <color name="ps_blue_light">#FF0070D1</color>
+    <color name="ps_blue_glow">#330070D1</color>
+
+    <!-- Màu sắc 4 biểu tượng PlayStation -->
+    <color name="ps_triangle">#00E676</color>
+    <color name="ps_square">#FF4081</color>
+    <color name="ps_circle">#FF1744</color>
+    <color name="ps_cross">#00E5FF</color>
+
+    <!-- Trạng thái -->
+    <color name="status_green">#00E676</color>
+    <color name="status_red">#FF5252</color>
+    <color name="status_orange">#FFAB00</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#FFA0A5B8</color>
+
+    <!-- Màu các nút và overlay -->
+    <color name="controller_stroke">#80FFFFFF</color>
+    <color name="controller_fill">#2A000000</color>
+    <color name="controller_pressed_fill">#66FFFFFF</color>
+    <color name="controller_text">#CCFFFFFF</color>
+    <color name="ic_launcher_background">#FF000000</color>
+</resources>

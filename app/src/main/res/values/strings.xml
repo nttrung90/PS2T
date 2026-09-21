@@ -1,0 +1,58 @@
+<resources>
+    <string name="app_name">PS2T Emulator</string>
+    <string name="damon_watermark">DamonPS2 PRO</string>
+
+    <!-- Giao diện Chơi game -->
+    <string name="open_game">Mở Game</string>
+    <string name="load_state">Tải State</string>
+    <string name="save_state">Lưu State</string>
+    <string name="toggle_gamepad">Ẩn/Hiện Phím</string>
+    <string name="back_to_menu">Về Menu</string>
+
+    <!-- Màn hình chính & Thiết lập -->
+    <string name="setup_title">PS2T EMULATOR</string>
+    <string name="setup_subtitle">Trình giả lập PlayStation 2 trên Android (SDK 36)</string>
+
+    <string name="bios_card_title">1. BIOS PlayStation 2 (Bắt buộc)</string>
+    <string name="bios_card_desc">BIOS PS2 trích xuất từ máy console (.bin) cần thiết để chạy game</string>
+    <string name="bios_status_ready">✓ BIOS đã sẵn sàng</string>
+    <string name="bios_status_missing">⚠ Chưa cài đặt BIOS</string>
+    <string name="btn_select_bios">Chọn tệp BIOS (.bin)</string>
+
+    <string name="game_card_title">2. Chọn Game PS2 (.iso, .bin, .elf)</string>
+    <string name="game_card_desc">Hỗ trợ các định dạng tệp ảnh đĩa PS2 tiêu chuẩn</string>
+    <string name="game_status_none">Chưa chọn game nào</string>
+    <string name="game_status_selected">✓ Game đã chọn</string>
+    <string name="btn_select_game">Chọn tệp Game</string>
+
+    <string name="settings_card_title">3. Tùy chọn đồ họa</string>
+    <string name="aspect_ratio_title">Tỉ lệ màn hình:</string>
+    <string name="renderer_title">Renderer đồ họa:</string>
+    <string name="fast_boot_title">Khởi động nhanh (Fast Boot)</string>
+
+    <string name="btn_launch_game">BẮT ĐẦU CHƠI GAME</string>
+
+    <string name="toast_bios_imported">Đã nạp thành công BIOS: %1$s</string>
+    <string name="toast_need_bios">Vui lòng chọn tệp BIOS trước khi bắt đầu!</string>
+    <string name="toast_need_game">Vui lòng chọn tệp Game PS2 để khởi chạy!</string>
+
+    <!-- Cài đặt nâng cao PCSX2 -->
+    <string name="core_settings_card_title">3. Cài đặt cốt lõi PCSX2</string>
+    <string name="core_settings_desc">Độ phân giải 1x-4x, CAS Sharpness, MTVU đa luồng, Widescreen 16:9, Cheats, SPU2 Audio &amp; Tay cầm</string>
+    <string name="btn_open_core_settings">⚙ CÀI ĐẶT CỐT LÕI (PCSX2 SETTINGS)</string>
+
+    <!-- Thẻ nhớ PS2 -->
+    <string name="memcard_card_title">4. Thẻ nhớ PS2 (Memory Cards)</string>
+    <string name="memcard_card_desc">Hai thẻ nhớ 8MB chuẩn PCSX2 để lưu file save game tự động</string>
+    <string name="memcard_slot1_status">Slot 1: Mcd001.ps2 (8MB) - Sẵn sàng</string>
+    <string name="memcard_slot2_status">Slot 2: Mcd002.ps2 (8MB) - Sẵn sàng</string>
+    <string name="btn_recreate_memcards">Kiểm tra / Định dạng lại thẻ nhớ</string>
+
+    <!-- HUD In-Game -->
+    <string name="hud_turbo">⏩ Turbo</string>
+    <string name="hud_pause">⏸ Tạm dừng</string>
+    <string name="hud_resume">▶ Tiếp tục</string>
+    <string name="hud_screenshot">📸 Ảnh</string>
+    <string name="hud_settings">⚙ Cài đặt</string>
+    <string name="hud_slot">Slot: %1$d</string>
+</resources>

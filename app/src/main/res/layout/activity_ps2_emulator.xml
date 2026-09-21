@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <!-- Màn hình kết xuất game OpenGL ES 3.0 (tỉ lệ 4:3 hoặc 16:9) -->
+    <android.opengl.GLSurfaceView
+        android:id="@+id/glSurfaceView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Lớp phủ OSD hiển thị FPS / VPS / Speed% như PCSX2 GS OSD -->
+    <TextView
+        android:id="@+id/tvOsdFps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="8dp"
+        android:background="#99000000"
+        android:paddingStart="6dp"
+        android:paddingEnd="6dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:text="FPS: 60.0 | VPS: 60.0 (100%)"
+        android:textColor="#00FF66"
+        android:fontFamily="monospace"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <!-- Lớp phủ hệ thống nút điều khiển ảo cảm ứng DamonPS2 PRO -->
+    <com.ps2t.emulator.ui.PS2TouchControllerView
+        android:id="@+id/touchControllerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Nút thu nhỏ / mở rộng Menu HUD ở đỉnh màn hình -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:layout_gravity="top|center_horizontal">
+
+        <LinearLayout
+            android:id="@+id/topBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:background="#AA111118"
+            android:orientation="horizontal"
+            android:padding="2dp">
+
+            <Button
+                android:id="@+id/btnTurbo"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="#88333333"
+                android:text="@string/hud_turbo"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnPause"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="#88333333"
+                android:text="@string/hud_pause"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnStateSlot"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="#88444455"
+                android:text="Slot 0"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnSaveState"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="#88333333"
+                android:text="@string/save_state"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnLoadState"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="#88333333"
+                android:text="@string/load_state"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnScreenshot"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="#88333333"
+                android:text="@string/hud_screenshot"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="#88333333"
+                android:text="@string/hud_settings"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnToggleGamepad"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:backgroundTint="#88333333"
+                android:text="@string/toggle_gamepad"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+            <Button
+                android:id="@+id/btnBackToHome"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:backgroundTint="#88882222"
+                android:text="@string/back_to_menu"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:paddingStart="6dp"
+                android:paddingEnd="6dp" />
+
+        </LinearLayout>
+
+        <!-- Nút ghim/thu gọn thanh công cụ -->
+        <TextView
+            android:id="@+id/btnCollapseHud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#66000000"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:text="▲ Ẩn menu"
+            android:textColor="#AAAAAA"
+            android:textSize="9sp" />
+
+    </LinearLayout>
+
+</FrameLayout>
