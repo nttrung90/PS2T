@@ -1,0 +1,367 @@
+SLES-53028:
+  name: "Hitman - Blood Money"
+  region: "PAL-E"
+  clampModes:
+    vuClampMode: 0 # Fixes bump mapping issues.
+  gsHWFixes:
+    minimumBlendingLevel: 4 # Fixes various rendering errors that appear as large black patches throughout levels.
+    halfPixelOffset: 2 # Fixes alignment of shuffles and post-processing.
+    autoFlush: 1 # Fixes sun intensity.
+    textureInsideRT: 1 # Fixes post-processing.
+  patches:
+    default:
+      content: |-
+        comment=Fixes Hitman Blood Money's Graphics
+        patch=1,EE,002ABE58,word,00000000
+        patch=1,EE,00497DD0,word,00000000
+SLES-53029:
+  name: "Hitman - Blood Money"
+  region: "PAL-F"
+  clampModes:
+    vuClampMode: 0 # Fixes bump mapping issues.
+  gsHWFixes:
+    minimumBlendingLevel: 4 # Fixes various rendering errors that appear as large black patches throughout levels.
+    halfPixelOffset: 2 # Fixes alignment of shuffles and post-processing.
+    autoFlush: 1 # Fixes sun intensity.
+    textureInsideRT: 1 # Fixes post-processing.
+  patches:
+    default:
+      content: |-
+        comment=Fixes Hitman Blood Money's Graphics
+        patch=1,EE,002ABE58,word,00000000
+        patch=1,EE,00497DD0,word,00000000
+SLES-53030:
+  name: "Hitman - Blood Money"
+  region: "PAL-G"
+  clampModes:
+    vuClampMode: 0 # Fixes bump mapping issues.
+  gsHWFixes:
+    minimumBlendingLevel: 4 # Fixes various rendering errors that appear as large black patches throughout levels.
+    halfPixelOffset: 2 # Fixes alignment of shuffles and post-processing.
+    autoFlush: 1 # Fixes sun intensity.
+    textureInsideRT: 1 # Fixes post-processing.
+  patches:
+    default:
+      content: |-
+        comment=Fixes Hitman Blood Money's Graphics
+        patch=1,EE,002ABE58,word,00000000
+        patch=1,EE,00497DD0,word,00000000
+SLES-53031:
+  name: "Hitman - Blood Money"
+  region: "PAL-I"
+  clampModes:
+    vuClampMode: 0 # Fixes bump mapping issues.
+  gsHWFixes:
+    minimumBlendingLevel: 4 # Fixes various rendering errors that appear as large black patches throughout levels.
+    halfPixelOffset: 2 # Fixes alignment of shuffles and post-processing.
+    autoFlush: 1 # Fixes sun intensity.
+    textureInsideRT: 1 # Fixes post-processing.
+  patches:
+    default:
+      content: |-
+        comment=Fixes Hitman Blood Money's Graphics
+        patch=1,EE,002ABE58,word,00000000
+        patch=1,EE,00497DD0,word,00000000
+SLES-53032:
+  name: "Hitman - Blood Money"
+  region: "PAL-S"
+  clampModes:
+    vuClampMode: 0 # Fixes bump mapping issues.
+  gsHWFixes:
+    minimumBlendingLevel: 4 # Fixes various rendering errors that appear as large black patches throughout levels.
+    halfPixelOffset: 2 # Fixes alignment of shuffles and post-processing.
+    autoFlush: 1 # Fixes sun intensity.
+    textureInsideRT: 1 # Fixes post-processing.
+  patches:
+    default:
+      content: |-
+        comment=Fixes Hitman Blood Money's Graphics
+        patch=1,EE,002ABE58,word,00000000
+        patch=1,EE,00497DD0,word,00000000
+SLUS-21108:
+  name: "Hitman - Blood Money"
+  region: "NTSC-U"
+  compat: 5
+  clampModes:
+    vuClampMode: 0 # Fixes bump mapping issues
+  gsHWFixes:
+    minimumBlendingLevel: 4 # Fixes various rendering errors that appear as large black patches throughout levels.
+    halfPixelOffset: 2 # Fixes alignment of shuffles and post-processing.
+    autoFlush: 1 # Fixes sun intensity.
+    textureInsideRT: 1 # Fixes post-processing.
+  patches:
+    default:
+      content: |-
+        comment=Fixes Hitman Blood Money's Graphics
+        patch=1,EE,002ABE58,word,00000000
+        patch=1,EE,00497DD0,word,00000000
+SCAJ-20028:
+  name: "Tales of Destiny 2"
+  region: "NTSC-Unk"
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SCAJ-20112:
+  name: "Tales of Rebirth"
+  region: "NTSC-Unk"
+  compat: 5
+  speedHacks:
+    mvuFlagSpeedHack: 0 # Fixes graphical corruptions.
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+  patches:
+    default:
+      content: |-
+        author=Ethanol
+        comment=Kills the sun (a bit)
+        patch=1,EE,D0237070,extended,01000006
+        patch=1,EE,202F01A8,extended,0000102D
+SCAJ-20145:
+  name: "Tales of Legendia"
+  region: "NTSC-J"
+  gameFixes:
+    - SoftwareRendererFMVHack # Fixes garbage textures presumably from texture cache issue.
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+    getSkipCount: "GSC_TalesOfLegendia"
+SCAJ-20163:
+  name: "Tales of the Abyss"
+  region: "NTSC-Unk"
+  compat: 5
+  gsHWFixes:
+    halfPixelOffset: 2 # Fixes ghosting.
+    autoFlush: 1 # Fixes post lighting.
+  patches:
+    default:
+      content: |-
+        author=sergx12
+        comment=Black Grid & No Bloom fixes
+        patch=1,EE,205E570C,extended,00000000
+        patch=1,EE,0011A668,word,00000000
+SCAJ-20182:
+  name: "Tales of Destiny"
+  region: "NTSC-Unk"
+  gameFixes:
+    - FpuMulHack
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SCAJ-20193:
+  name: "Tales of Destiny [Director's Cut] [Premium Box]"
+  region: "NTSC-C-J"
+  gameFixes:
+    - FpuMulHack
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SCKA-20008:
+  name: "Tales of Destiny 2"
+  region: "NTSC-K"
+  compat: 5
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SCKA-20050:
+  name: "Tales of Legendia"
+  region: "NTSC-K"
+  compat: 5
+  gameFixes:
+    - SoftwareRendererFMVHack # Fixes garbage textures presumably from texture cache issue.
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+    getSkipCount: "GSC_TalesOfLegendia"
+SCKA-20054:
+  name: "Tales of Destiny 2 [PlayStation 2 Big Hit Series]"
+  region: "NTSC-K"
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SCKA-20100:
+  name: "Tales of Destiny"
+  region: "NTSC-K"
+  gameFixes:
+    - FpuMulHack
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SCKA-20119:
+  name: "Tales of Destiny - Director's Cut"
+  region: "NTSC-K"
+  gameFixes:
+    - FpuMulHack
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SCKA-20129:
+  name: "Tales of Legendia"
+  region: "NTSC-K"
+  compat: 5
+  gameFixes:
+    - SoftwareRendererFMVHack # Fixes garbage textures presumably from texture cache issue.
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+    getSkipCount: "GSC_TalesOfLegendia"
+SCPS-55050:
+  name: "Tales of Destiny 2"
+  region: "NTSC-J"
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SLPS-25172:
+  name: "Tales of Destiny 2"
+  region: "NTSC-J"
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SLPS-25450:
+  name: "Tales of Rebirth"
+  region: "NTSC-J"
+  compat: 5
+  speedHacks:
+    mvuFlagSpeedHack: 0 # Fixes graphical corruptions.
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+  patches:
+    default:
+      content: |-
+        author=Ethanol
+        comment=Kills the sun (a bit)
+        patch=1,EE,D0237070,extended,01000006
+        patch=1,EE,202F01A8,extended,0000102D
+SLPS-25533:
+  name: "Tales of Legendia"
+  region: "NTSC-J"
+  compat: 5
+  gameFixes:
+    - SoftwareRendererFMVHack # Fixes garbage textures presumably from texture cache issue.
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+    getSkipCount: "GSC_TalesOfLegendia"
+SLPS-25715:
+  name: "Tales of Destiny"
+  region: "NTSC-J"
+  gameFixes:
+    - FpuMulHack
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SLPS-25841:
+  name: "Tales of Destiny [Director's Cut] [Premium Box]"
+  region: "NTSC-J"
+  gameFixes:
+    - FpuMulHack
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+  memcardFilters: # Allows import of non-DC Tales of Destiny data.
+    - "SLPS-25841"
+    - "SLPS-25842"
+    - "SLPS-25715"
+SLPS-25842:
+  name: "Tales of Destiny [Director's Cut]"
+  region: "NTSC-J"
+  compat: 5
+  gameFixes:
+    - FpuMulHack
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+  memcardFilters:
+    - "SLPS-25841"
+    - "SLPS-25842"
+    - "SLPS-25715"
+SLPS-72502:
+  name: "Tales of Destiny 2 [Mega Hits]"
+  region: "NTSC-J"
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SLPS-73219:
+  name: "Tales of Destiny 2 [PlayStation 2 the Best]"
+  region: "NTSC-J"
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+SLPS-73242:
+  name: "Tales of Legendia [PlayStation 2 the Best]"
+  region: "NTSC-J"
+  gameFixes:
+    - SoftwareRendererFMVHack # Fixes garbage textures presumably from texture cache issue.
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+    getSkipCount: "GSC_TalesOfLegendia"
+SLUS-21201:
+  name: "Tales of Legendia"
+  region: "NTSC-U"
+  compat: 5
+  gameFixes:
+    - SoftwareRendererFMVHack # Fixes garbage textures presumably from texture cache issue.
+  gsHWFixes:
+    disablePartialInvalidation: 1 # Fixes some performance loss caused by excessive junk texture generation
+    estimateTextureRegion: 1 # Improves performance and reduces hash cache size
+    preloadFrameData: 1 # Reduces performance drops caused by effects
+    texturePreloading: 1 # Performs much better with partial preload
+    getSkipCount: "GSC_TalesOfLegendia"
+SLUS-21386:
+  name: "Tales of the Abyss"
+  region: "NTSC-U"
+  compat: 5
+  gsHWFixes:
+    halfPixelOffset: 2 # Fixes ghosting.
+    autoFlush: 1 # Fixes post lighting.
+  patches:
+    default:
+      content: |-
+        author=sergx12
+        comment=Black Grid & No Bloom fixes
+        patch=1,EE,205E570C,extended,00000000
+        patch=1,EE,0011A668,word,00000000

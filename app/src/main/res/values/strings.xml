@@ -13,9 +13,10 @@
     <string name="setup_title">PS2T EMULATOR</string>
     <string name="setup_subtitle">Trình giả lập PlayStation 2 trên Android (SDK 36)</string>
 
-    <string name="bios_card_title">1. BIOS PlayStation 2 (Bắt buộc)</string>
-    <string name="bios_card_desc">BIOS PS2 trích xuất từ máy console (.bin) cần thiết để chạy game</string>
-    <string name="bios_status_ready">✓ BIOS đã sẵn sàng</string>
+    <string name="bios_card_title">1. BIOS PlayStation 2</string>
+    <string name="bios_card_desc">Hỗ trợ HLE BIOS tích hợp sẵn hoặc BIOS trích xuất từ máy console (.bin)</string>
+    <string name="bios_status_ready">✓ BIOS tùy chỉnh sẵn sàng</string>
+    <string name="bios_status_hle">✓ HLE BIOS tích hợp (Sẵn sàng)</string>
     <string name="bios_status_missing">⚠ Chưa cài đặt BIOS</string>
     <string name="btn_select_bios">Chọn tệp BIOS (.bin)</string>
 
@@ -35,6 +36,8 @@
     <string name="toast_bios_imported">Đã nạp thành công BIOS: %1$s</string>
     <string name="toast_need_bios">Vui lòng chọn tệp BIOS trước khi bắt đầu!</string>
     <string name="toast_need_game">Vui lòng chọn tệp Game PS2 để khởi chạy!</string>
+    <string name="toast_launching_game">Đang nạp dữ liệu và khởi chạy game PS2...</string>
+    <string name="error_launch_failed">Không thể khởi chạy màn hình game: %1$s</string>
 
     <!-- Cài đặt nâng cao PCSX2 -->
     <string name="core_settings_card_title">3. Cài đặt cốt lõi PCSX2</string>

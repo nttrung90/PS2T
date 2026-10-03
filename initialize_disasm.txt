@@ -1,0 +1,606 @@
+
+app/src/main/jniLibs/arm64-v8a/libemucore.so:	file format elf64-littleaarch64
+
+Disassembly of section .text:
+
+000000000082c920 <Java_xyz_aethersx2_android_NativeLibrary_initialize>:
+  82caa0: f0ffc808     	adrp	x8, 0x12f000 <_ZTSNSt6__ndk113basic_ostreamIwNS_11char_traitsIwEEEE+0x1e>
+  82caa4: fd441500     	ldr	d0, [x8, #0x828]
+  82caa8: f0ffca28     	adrp	x8, 0x173000 <_ZTSFbvE+0x1d5>
+  82caac: 910d0908     	add	x8, x8, #0x342
+  82cab0: fd001280     	str	d0, [x20, #0x20]
+  82cab4: ad400500     	ldp	q0, q1, [x8]
+  82cab8: 3c829280     	stur	q0, [x20, #0x29]
+  82cabc: 528015a9     	mov	w9, #0xad
+  82cac0: 381383a9     	sturb	w9, [x29, #-0xc8]
+  82cac4: 3c839281     	stur	q1, [x20, #0x39]
+  82cac8: 3cc19100     	ldur	q0, [x8, #0x19]
+  82cacc: 3c842280     	stur	q0, [x20, #0x42]
+  82cad0: f9004e9f     	str	xzr, [x20, #0x98]
+  82cad4: f9404e88     	ldr	x8, [x20, #0x98]
+  82cad8: f100a11f     	cmp	x8, #0x28
+  82cadc: 54000268     	b.hi	0x82cb28 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x208>
+  82cae0: d103c3a8     	sub	x8, x29, #0xf0
+  82cae4: 910343e9     	add	x9, sp, #0xd0
+  82cae8: f9404e8a     	ldr	x10, [x20, #0x98]
+  82caec: 386a690a     	ldrb	w10, [x8, x10]
+  82caf0: f9404e8b     	ldr	x11, [x20, #0x98]
+  82caf4: 8b0b010b     	add	x11, x8, x11
+  82caf8: 3940a56b     	ldrb	w11, [x11, #0x29]
+  82cafc: 4b0b014a     	sub	w10, w10, w11
+  82cb00: 381c03aa     	sturb	w10, [x29, #-0x40]
+  82cb04: 385c03aa     	ldurb	w10, [x29, #-0x40]
+  82cb08: f9404e8b     	ldr	x11, [x20, #0x98]
+  82cb0c: 382b692a     	strb	w10, [x9, x11]
+  82cb10: f9404e8a     	ldr	x10, [x20, #0x98]
+  82cb14: 9100054a     	add	x10, x10, #0x1
+  82cb18: f9004e8a     	str	x10, [x20, #0x98]
+  82cb1c: f9404e8a     	ldr	x10, [x20, #0x98]
+  82cb20: f100a55f     	cmp	x10, #0x29
+  82cb24: 54fffe23     	b.lo	0x82cae8 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x1c8>
+  82cb28: 52800600     	mov	w0, #0x30
+  82cb2c: 940c69f9     	bl	0xb47310 <_Znwm@plt>
+  82cb30: f9004280     	str	x0, [x20, #0x80]
+  82cb34: b0ffc7e8     	adrp	x8, 0x129000 <_ZNSt6__ndk16chrono12system_clock9is_steadyE+0x74204>
+  82cb38: 3900a01f     	strb	wzr, [x0, #0x28]
+  82cb3c: ad4687e0     	ldp	q0, q1, [sp, #0xd0]
+  82cb40: a90bffff     	stp	xzr, xzr, [sp, #0xb8]
+  82cb44: 3dc3a502     	ldr	q2, [x8, #0xe90]
+  82cb48: f9407be8     	ldr	x8, [sp, #0xf0]
+  82cb4c: 3d801e82     	str	q2, [x20, #0x70]
+  82cb50: f9001008     	str	x8, [x0, #0x20]
+  82cb54: f9005bff     	str	xzr, [sp, #0xb0]
+  82cb58: ad000400     	stp	q0, q1, [x0]
+  82cb5c: 52800300     	mov	w0, #0x18
+  82cb60: 940c69ec     	bl	0xb47310 <_Znwm@plt>
+  82cb64: aa0003f8     	mov	x24, x0
+  82cb68: a90b03e0     	stp	x0, x0, [sp, #0xb0]
+  82cb6c: 91006015     	add	x21, x0, #0x18
+  82cb70: f90063f5     	str	x21, [sp, #0xc0]
+  82cb74: d10203a1     	sub	x1, x29, #0x80
+  82cb78: 940c69fe     	bl	0xb47370 <_ZNSt6__ndk112basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1ERKS5_@plt>
+  82cb7c: f9005ff5     	str	x21, [sp, #0xb8]
+  82cb80: 385803a8     	ldurb	w8, [x29, #-0x80]
+  82cb84: 36000068     	tbz	w8, #0x0, 0x82cb90 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x270>
+  82cb88: f9404280     	ldr	x0, [x20, #0x80]
+  82cb8c: 940c69bd     	bl	0xb47280 <_ZdlPv@plt>
+  82cb90: f9400268     	ldr	x8, [x19]
+  82cb94: f9407d08     	ldr	x8, [x8, #0xf8]
+  82cb98: aa1303e0     	mov	x0, x19
+  82cb9c: aa1703e1     	mov	x1, x23
+  82cba0: d63f0100     	blr	x8
+  82cba4: aa0003f5     	mov	x21, x0
+  82cba8: d29359c8     	mov	x8, #0x9ace
+  82cbac: f2bac4a8     	movk	x8, #0xd625, lsl #16
+  82cbb0: f2d48d68     	movk	x8, #0xa46b, lsl #32
+  82cbb4: f2f5d5a8     	movk	x8, #0xaead, lsl #48
+  82cbb8: f9006be8     	str	x8, [sp, #0xd0]
+  82cbbc: 52801c08     	mov	w8, #0xe0
+  82cbc0: 39037be8     	strb	w8, [sp, #0xde]
+  82cbc4: 529ddcc9     	mov	w9, #0xeee6
+  82cbc8: 7901bbe9     	strh	w9, [sp, #0xdc]
+  82cbcc: 5280a249     	mov	w9, #0x512
+  82cbd0: 72aaede9     	movk	w9, #0x576f, lsl #16
+  82cbd4: b900dbe9     	str	w9, [sp, #0xd8]
+  82cbd8: d286ace9     	mov	x9, #0x3567
+  82cbdc: f2b0d629     	movk	x9, #0x86b1, lsl #16
+  82cbe0: f2c82149     	movk	x9, #0x410a, lsl #32
+  82cbe4: f2e9a849     	movk	x9, #0x4d42, lsl #48
+  82cbe8: f80df3e9     	stur	x9, [sp, #0xdf]
+  82cbec: 3903b7e8     	strb	w8, [sp, #0xed]
+  82cbf0: 52912f28     	mov	w8, #0x8979
+  82cbf4: 780eb3e8     	sturh	w8, [sp, #0xeb]
+  82cbf8: 52941568     	mov	w8, #0xa0ab
+  82cbfc: 72bec428     	movk	w8, #0xf621, lsl #16
+  82cc00: b80e73e8     	stur	w8, [sp, #0xe7]
+  82cc04: f9004e9f     	str	xzr, [x20, #0x98]
+  82cc08: f9404e88     	ldr	x8, [x20, #0x98]
+  82cc0c: f100391f     	cmp	x8, #0xe
+  82cc10: 54000268     	b.hi	0x82cc5c <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x33c>
+  82cc14: 910343e8     	add	x8, sp, #0xd0
+  82cc18: d103c3a9     	sub	x9, x29, #0xf0
+  82cc1c: f9404e8a     	ldr	x10, [x20, #0x98]
+  82cc20: 386a690a     	ldrb	w10, [x8, x10]
+  82cc24: f9404e8b     	ldr	x11, [x20, #0x98]
+  82cc28: 8b0b010b     	add	x11, x8, x11
+  82cc2c: 39403d6b     	ldrb	w11, [x11, #0xf]
+  82cc30: 4b0b014a     	sub	w10, w10, w11
+  82cc34: 381c03aa     	sturb	w10, [x29, #-0x40]
+  82cc38: 385c03aa     	ldurb	w10, [x29, #-0x40]
+  82cc3c: f9404e8b     	ldr	x11, [x20, #0x98]
+  82cc40: 382b692a     	strb	w10, [x9, x11]
+  82cc44: f9404e8a     	ldr	x10, [x20, #0x98]
+  82cc48: 9100054a     	add	x10, x10, #0x1
+  82cc4c: f9004e8a     	str	x10, [x20, #0x98]
+  82cc50: f9404e8a     	ldr	x10, [x20, #0x98]
+  82cc54: f1003d5f     	cmp	x10, #0xf
+  82cc58: 54fffe23     	b.lo	0x82cc1c <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x2fc>
+  82cc5c: 52800388     	mov	w8, #0x1c
+  82cc60: 381803a8     	sturb	w8, [x29, #-0x80]
+  82cc64: d10203a8     	sub	x8, x29, #0x80
+  82cc68: b2400102     	orr	x2, x8, #0x1
+  82cc6c: f85103a8     	ldur	x8, [x29, #-0xf0]
+  82cc70: f8071288     	stur	x8, [x20, #0x71]
+  82cc74: f8406288     	ldur	x8, [x20, #0x6]
+  82cc78: f8077288     	stur	x8, [x20, #0x77]
+  82cc7c: d0ffc7e8     	adrp	x8, 0x12a000 <_ZNSt6__ndk16chrono12steady_clock9is_steadyE+0x845>
+  82cc80: 3dc19500     	ldr	q0, [x8, #0x650]
+  82cc84: 3c9103a0     	stur	q0, [x29, #-0xf0]
+  82cc88: 528851c8     	mov	w8, #0x428e
+  82cc8c: 72acada8     	movk	w8, #0x656d, lsl #16
+  82cc90: b81203a8     	stur	w8, [x29, #-0xe0]
+  82cc94: 528013e8     	mov	w8, #0x9f
+  82cc98: 381243a8     	sturb	w8, [x29, #-0xdc]
+  82cc9c: f0ffca28     	adrp	x8, 0x173000 <_ZTSFbvE+0x1d5>
+  82cca0: 910dad08     	add	x8, x8, #0x36b
+  82cca4: 3dc00100     	ldr	q0, [x8]
+  82cca8: 3c815280     	stur	q0, [x20, #0x15]
+  82ccac: 3818f3bf     	sturb	wzr, [x29, #-0x71]
+  82ccb0: f840d108     	ldur	x8, [x8, #0xd]
+  82ccb4: f8022288     	stur	x8, [x20, #0x22]
+  82ccb8: f90067ff     	str	xzr, [sp, #0xc8]
+  82ccbc: f94067e8     	ldr	x8, [sp, #0xc8]
+  82ccc0: f100511f     	cmp	x8, #0x14
+  82ccc4: 54000268     	b.hi	0x82cd10 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x3f0>
+  82ccc8: d103c3a8     	sub	x8, x29, #0xf0
+  82cccc: d10103a9     	sub	x9, x29, #0x40
+  82ccd0: f94067ea     	ldr	x10, [sp, #0xc8]
+  82ccd4: 386a690a     	ldrb	w10, [x8, x10]
+  82ccd8: f94067eb     	ldr	x11, [sp, #0xc8]
+  82ccdc: 8b0b010b     	add	x11, x8, x11
+  82cce0: 3940556b     	ldrb	w11, [x11, #0x15]
+  82cce4: 4b0b014a     	sub	w10, w10, w11
+  82cce8: 390253ea     	strb	w10, [sp, #0x94]
+  82ccec: 394253ea     	ldrb	w10, [sp, #0x94]
+  82ccf0: f94067eb     	ldr	x11, [sp, #0xc8]
+  82ccf4: 382b692a     	strb	w10, [x9, x11]
+  82ccf8: f94067ea     	ldr	x10, [sp, #0xc8]
+  82ccfc: 9100054a     	add	x10, x10, #0x1
+  82cd00: f90067ea     	str	x10, [sp, #0xc8]
+  82cd04: f94067ea     	ldr	x10, [sp, #0xc8]
+  82cd08: f100555f     	cmp	x10, #0x15
+  82cd0c: 54fffe23     	b.lo	0x82ccd0 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x3b0>
+  82cd10: 52800508     	mov	w8, #0x28
+  82cd14: 381a83a8     	sturb	w8, [x29, #-0x58]
+  82cd18: d10163a8     	sub	x8, x29, #0x58
+  82cd1c: 3dc02e80     	ldr	q0, [x20, #0xb0]
+  82cd20: 3c899280     	stur	q0, [x20, #0x99]
+  82cd24: b2400103     	orr	x3, x8, #0x1
+  82cd28: b85d03a8     	ldur	w8, [x29, #-0x30]
+  82cd2c: b80a9288     	stur	w8, [x20, #0xa9]
+  82cd30: 381bd3bf     	sturb	wzr, [x29, #-0x43]
+  82cd34: f9400268     	ldr	x8, [x19]
+  82cd38: f9408508     	ldr	x8, [x8, #0x108]
+  82cd3c: aa1303e0     	mov	x0, x19
+  82cd40: aa1503e1     	mov	x1, x21
+  82cd44: d63f0100     	blr	x8
+  82cd48: aa0003f6     	mov	x22, x0
+  82cd4c: 385a83a8     	ldurb	w8, [x29, #-0x58]
+  82cd50: 36000068     	tbz	w8, #0x0, 0x82cd5c <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x43c>
+  82cd54: f9405680     	ldr	x0, [x20, #0xa8]
+  82cd58: 940c694a     	bl	0xb47280 <_ZdlPv@plt>
+  82cd5c: 385803a8     	ldurb	w8, [x29, #-0x80]
+  82cd60: 36000068     	tbz	w8, #0x0, 0x82cd6c <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x44c>
+  82cd64: f9404280     	ldr	x0, [x20, #0x80]
+  82cd68: 940c6946     	bl	0xb47280 <_ZdlPv@plt>
+  82cd6c: aa1303e0     	mov	x0, x19
+  82cd70: aa1703e1     	mov	x1, x23
+  82cd74: aa1603e2     	mov	x2, x22
+  82cd78: 97ffe842     	bl	0x826e80 <_ZNSt6__ndk117bad_function_callD0Ev+0x3855e0>
+  82cd7c: aa0003f6     	mov	x22, x0
+  82cd80: f9400268     	ldr	x8, [x19]
+  82cd84: f9439108     	ldr	x8, [x8, #0x720]
+  82cd88: aa1303e0     	mov	x0, x19
+  82cd8c: d63f0100     	blr	x8
+  82cd90: 72001c1f     	tst	w0, #0xff
+  82cd94: 540001c0     	b.eq	0x82cdcc <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x4ac>
+  82cd98: f9400268     	ldr	x8, [x19]
+  82cd9c: f9404508     	ldr	x8, [x8, #0x88]
+  82cda0: aa1303e0     	mov	x0, x19
+  82cda4: d63f0100     	blr	x8
+  82cda8: f9003bf6     	str	x22, [sp, #0x70]
+  82cdac: 2a1f03f6     	mov	w22, wzr
+  82cdb0: f9403be1     	ldr	x1, [sp, #0x70]
+  82cdb4: b4001021     	cbz	x1, 0x82cfb8 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x698>
+  82cdb8: f9400268     	ldr	x8, [x19]
+  82cdbc: f9405d08     	ldr	x8, [x8, #0xb8]
+  82cdc0: aa1303e0     	mov	x0, x19
+  82cdc4: d63f0100     	blr	x8
+  82cdc8: 1400007c     	b	0x82cfb8 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x698>
+  82cdcc: b4000f76     	cbz	x22, 0x82cfb8 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x698>
+  82cdd0: 90ffc808     	adrp	x8, 0x12c000 <_ZNSt6__ndk16chrono12steady_clock9is_steadyE+0x2845>
+  82cdd4: 3dc37500     	ldr	q0, [x8, #0xdd0]
+  82cdd8: 3d801e80     	str	q0, [x20, #0x70]
+  82cddc: 5293fb28     	mov	w8, #0x9fd9
+  82cde0: 781903a8     	sturh	w8, [x29, #-0x70]
+  82cde4: 5293ece8     	mov	w8, #0x9f67
+  82cde8: 781a23a8     	sturh	w8, [x29, #-0x5e]
+  82cdec: f0ffca28     	adrp	x8, 0x173000 <_ZTSFbvE+0x1d5>
+  82cdf0: 910e0108     	add	x8, x8, #0x380
+  82cdf4: 3dc00100     	ldr	q0, [x8]
+  82cdf8: 3c882280     	stur	q0, [x20, #0x82]
+  82cdfc: f9006bff     	str	xzr, [sp, #0xd0]
+  82ce00: f9406be8     	ldr	x8, [sp, #0xd0]
+  82ce04: f100451f     	cmp	x8, #0x11
+  82ce08: 54000268     	b.hi	0x82ce54 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x534>
+  82ce0c: d10203a8     	sub	x8, x29, #0x80
+  82ce10: d103c3a9     	sub	x9, x29, #0xf0
+  82ce14: f9406bea     	ldr	x10, [sp, #0xd0]
+  82ce18: 386a690a     	ldrb	w10, [x8, x10]
+  82ce1c: f9406beb     	ldr	x11, [sp, #0xd0]
+  82ce20: 8b0b010b     	add	x11, x8, x11
+  82ce24: 3940496b     	ldrb	w11, [x11, #0x12]
+  82ce28: 4b0b014a     	sub	w10, w10, w11
+  82ce2c: 381c03aa     	sturb	w10, [x29, #-0x40]
+  82ce30: 385c03aa     	ldurb	w10, [x29, #-0x40]
+  82ce34: f9406beb     	ldr	x11, [sp, #0xd0]
+  82ce38: 382b692a     	strb	w10, [x9, x11]
+  82ce3c: f9406bea     	ldr	x10, [sp, #0xd0]
+  82ce40: 9100054a     	add	x10, x10, #0x1
+  82ce44: f9006bea     	str	x10, [sp, #0xd0]
+  82ce48: f9406bea     	ldr	x10, [sp, #0xd0]
+  82ce4c: f100495f     	cmp	x10, #0x12
+  82ce50: 54fffe23     	b.lo	0x82ce14 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x4f4>
+  82ce54: 3cd103a0     	ldur	q0, [x29, #-0xf0]
+  82ce58: 3c899280     	stur	q0, [x20, #0x99]
+  82ce5c: 385203a8     	ldurb	w8, [x29, #-0xe0]
+  82ce60: f0ffc7e9     	adrp	x9, 0x12b000 <_ZNSt6__ndk16chrono12steady_clock9is_steadyE+0x1845>
+  82ce64: b0ffc7ea     	adrp	x10, 0x129000 <_ZNSt6__ndk16chrono12system_clock9is_steadyE+0x74204>
+  82ce68: 3dc3b920     	ldr	q0, [x9, #0xee0]
+  82ce6c: 3dc2fd41     	ldr	q1, [x10, #0xbf0]
+  82ce70: 3c9103a0     	stur	q0, [x29, #-0xf0]
+  82ce74: 3d800681     	str	q1, [x20, #0x10]
+  82ce78: f0ffca29     	adrp	x9, 0x173000 <_ZTSFbvE+0x1d5>
+  82ce7c: 910e4929     	add	x9, x9, #0x392
+  82ce80: ad400520     	ldp	q0, q1, [x9]
+  82ce84: 3c836281     	stur	q1, [x20, #0x36]
+  82ce88: 5280044a     	mov	w10, #0x22
+  82ce8c: 381a83aa     	sturb	w10, [x29, #-0x58]
+  82ce90: 381b93a8     	sturb	w8, [x29, #-0x47]
+  82ce94: 5286f4c8     	mov	w8, #0x37a6
+  82ce98: 72b9a288     	movk	w8, #0xcd14, lsl #16
+  82ce9c: b81303a8     	stur	w8, [x29, #-0xd0]
+  82cea0: 528c6628     	mov	w8, #0x6331
+  82cea4: 781343a8     	sturh	w8, [x29, #-0xcc]
+  82cea8: 381ba3bf     	sturb	wzr, [x29, #-0x46]
+  82ceac: f841e128     	ldur	x8, [x9, #0x1e]
+  82ceb0: f8044288     	stur	x8, [x20, #0x44]
+  82ceb4: 3c826280     	stur	q0, [x20, #0x26]
+  82ceb8: f9005a9f     	str	xzr, [x20, #0xb0]
+  82cebc: f9405a88     	ldr	x8, [x20, #0xb0]
+  82cec0: f100951f     	cmp	x8, #0x25
+  82cec4: 54000268     	b.hi	0x82cf10 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x5f0>
+  82cec8: d103c3a8     	sub	x8, x29, #0xf0
+  82cecc: 910343e9     	add	x9, sp, #0xd0
+  82ced0: f9405a8a     	ldr	x10, [x20, #0xb0]
+  82ced4: 386a690a     	ldrb	w10, [x8, x10]
+  82ced8: f9405a8b     	ldr	x11, [x20, #0xb0]
+  82cedc: 8b0b010b     	add	x11, x8, x11
+  82cee0: 3940996b     	ldrb	w11, [x11, #0x26]
+  82cee4: 4b0b014a     	sub	w10, w10, w11
+  82cee8: 390323ea     	strb	w10, [sp, #0xc8]
+  82ceec: 394323ea     	ldrb	w10, [sp, #0xc8]
+  82cef0: f9405a8b     	ldr	x11, [x20, #0xb0]
+  82cef4: 382b692a     	strb	w10, [x9, x11]
+  82cef8: f9405a8a     	ldr	x10, [x20, #0xb0]
+  82cefc: 9100054a     	add	x10, x10, #0x1
+  82cf00: f9005a8a     	str	x10, [x20, #0xb0]
+  82cf04: f9405a8a     	ldr	x10, [x20, #0xb0]
+  82cf08: f100995f     	cmp	x10, #0x26
+  82cf0c: 54fffe23     	b.lo	0x82ced0 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x5b0>
+  82cf10: 52800600     	mov	w0, #0x30
+  82cf14: f9003bf6     	str	x22, [sp, #0x70]
+  82cf18: 940c68fe     	bl	0xb47310 <_Znwm@plt>
+  82cf1c: aa0003f9     	mov	x25, x0
+  82cf20: d10163a8     	sub	x8, x29, #0x58
+  82cf24: ad4687e0     	ldp	q0, q1, [sp, #0xd0]
+  82cf28: ad000400     	stp	q0, q1, [x0]
+  82cf2c: b2400102     	orr	x2, x8, #0x1
+  82cf30: f84ed3e8     	ldur	x8, [sp, #0xed]
+  82cf34: f801d008     	stur	x8, [x0, #0x1d]
+  82cf38: 3900941f     	strb	wzr, [x0, #0x25]
+  82cf3c: f9400268     	ldr	x8, [x19]
+  82cf40: f9408508     	ldr	x8, [x8, #0x108]
+  82cf44: aa1303e0     	mov	x0, x19
+  82cf48: aa1503e1     	mov	x1, x21
+  82cf4c: aa1903e3     	mov	x3, x25
+  82cf50: d63f0100     	blr	x8
+  82cf54: aa0003fa     	mov	x26, x0
+  82cf58: aa1903e0     	mov	x0, x25
+  82cf5c: 940c68c9     	bl	0xb47280 <_ZdlPv@plt>
+  82cf60: 385a83a8     	ldurb	w8, [x29, #-0x58]
+  82cf64: 36000068     	tbz	w8, #0x0, 0x82cf70 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x650>
+  82cf68: f9405680     	ldr	x0, [x20, #0xa8]
+  82cf6c: 940c68c5     	bl	0xb47280 <_ZdlPv@plt>
+  82cf70: aa1303e0     	mov	x0, x19
+  82cf74: aa1703e1     	mov	x1, x23
+  82cf78: aa1a03e2     	mov	x2, x26
+  82cf7c: 97ffe7c1     	bl	0x826e80 <_ZNSt6__ndk117bad_function_callD0Ev+0x3855e0>
+  82cf80: aa0003f9     	mov	x25, x0
+  82cf84: f9400268     	ldr	x8, [x19]
+  82cf88: f9439108     	ldr	x8, [x8, #0x720]
+  82cf8c: aa1303e0     	mov	x0, x19
+  82cf90: d63f0100     	blr	x8
+  82cf94: 72001c1f     	tst	w0, #0xff
+  82cf98: 54000c60     	b.eq	0x82d124 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x804>
+  82cf9c: f9400268     	ldr	x8, [x19]
+  82cfa0: f9404508     	ldr	x8, [x8, #0x88]
+  82cfa4: aa1303e0     	mov	x0, x19
+  82cfa8: d63f0100     	blr	x8
+  82cfac: 2a1f03f6     	mov	w22, wzr
+  82cfb0: b5002f39     	cbnz	x25, 0x82d594 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0xc74>
+  82cfb4: 17ffff7f     	b	0x82cdb0 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x490>
+  82cfb8: b40000d5     	cbz	x21, 0x82cfd0 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x6b0>
+  82cfbc: f9400268     	ldr	x8, [x19]
+  82cfc0: f9405d08     	ldr	x8, [x8, #0xb8]
+  82cfc4: aa1303e0     	mov	x0, x19
+  82cfc8: aa1503e1     	mov	x1, x21
+  82cfcc: d63f0100     	blr	x8
+  82cfd0: 39400308     	ldrb	w8, [x24]
+  82cfd4: 36000068     	tbz	w8, #0x0, 0x82cfe0 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x6c0>
+  82cfd8: f9400b00     	ldr	x0, [x24, #0x10]
+  82cfdc: 940c68a9     	bl	0xb47280 <_ZdlPv@plt>
+  82cfe0: f9005ff8     	str	x24, [sp, #0xb8]
+  82cfe4: aa1803e0     	mov	x0, x24
+  82cfe8: 940c68a6     	bl	0xb47280 <_ZdlPv@plt>
+  82cfec: 3600ca96     	tbz	w22, #0x0, 0x82e93c <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x201c>
+  82cff0: d0ffc7e8     	adrp	x8, 0x12a000 <_ZNSt6__ndk16chrono12steady_clock9is_steadyE+0x845>
+  82cff4: 3dc03d00     	ldr	q0, [x8, #0xf0]
+  82cff8: 3c9103a0     	stur	q0, [x29, #-0xf0]
+  82cffc: 528ad308     	mov	w8, #0x5698
+  82d000: 72a665a8     	movk	w8, #0x332d, lsl #16
+  82d004: b81203a8     	stur	w8, [x29, #-0xe0]
+  82d008: 528f81c8     	mov	w8, #0x7c0e
+  82d00c: 781243a8     	sturh	w8, [x29, #-0xdc]
+  82d010: 528010c8     	mov	w8, #0x86
+  82d014: d0ffca29     	adrp	x9, 0x173000 <_ZTSFbvE+0x1d5>
+  82d018: 91126529     	add	x9, x9, #0x499
+  82d01c: 3dc00120     	ldr	q0, [x9]
+  82d020: 3c817280     	stur	q0, [x20, #0x17]
+  82d024: 381263a8     	sturb	w8, [x29, #-0xda]
+  82d028: f840f128     	ldur	x8, [x9, #0xf]
+  82d02c: f8026288     	stur	x8, [x20, #0x26]
+  82d030: f9005bff     	str	xzr, [sp, #0xb0]
+  82d034: f9405be8     	ldr	x8, [sp, #0xb0]
+  82d038: f100591f     	cmp	x8, #0x16
+  82d03c: 54000268     	b.hi	0x82d088 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x768>
+  82d040: d103c3a8     	sub	x8, x29, #0xf0
+  82d044: d10203a9     	sub	x9, x29, #0x80
+  82d048: f9405bea     	ldr	x10, [sp, #0xb0]
+  82d04c: 386a690a     	ldrb	w10, [x8, x10]
+  82d050: f9405beb     	ldr	x11, [sp, #0xb0]
+  82d054: 8b0b010b     	add	x11, x8, x11
+  82d058: 39405d6b     	ldrb	w11, [x11, #0x17]
+  82d05c: 4b0b014a     	sub	w10, w10, w11
+  82d060: 381a83aa     	sturb	w10, [x29, #-0x58]
+  82d064: 385a83aa     	ldurb	w10, [x29, #-0x58]
+  82d068: f9405beb     	ldr	x11, [sp, #0xb0]
+  82d06c: 382b692a     	strb	w10, [x9, x11]
+  82d070: f9405bea     	ldr	x10, [sp, #0xb0]
+  82d074: 9100054a     	add	x10, x10, #0x1
+  82d078: f9005bea     	str	x10, [sp, #0xb0]
+  82d07c: f9405bea     	ldr	x10, [sp, #0xb0]
+  82d080: f1005d5f     	cmp	x10, #0x17
+  82d084: 54fffe23     	b.lo	0x82d048 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x728>
+  82d088: 52800588     	mov	w8, #0x2c
+  82d08c: 3dc01e80     	ldr	q0, [x20, #0x70]
+  82d090: f847e289     	ldur	x9, [x20, #0x7e]
+  82d094: 390343e8     	strb	w8, [sp, #0xd0]
+  82d098: 3c8d13e0     	stur	q0, [sp, #0xd1]
+  82d09c: f80df3e9     	stur	x9, [sp, #0xdf]
+  82d0a0: 39400388     	ldrb	w8, [x28]
+  82d0a4: 7200011f     	tst	w8, #0x1
+  82d0a8: a940a78a     	ldp	x10, x9, [x28, #0x8]
+  82d0ac: 9a9c1536     	csinc	x22, x9, x28, ne
+  82d0b0: 39039fff     	strb	wzr, [sp, #0xe7]
+  82d0b4: d341fd08     	lsr	x8, x8, #1
+  82d0b8: 9a8a0108     	csel	x8, x8, x10, eq
+  82d0bc: f100591f     	cmp	x8, #0x16
+  82d0c0: 5400c3eb     	b.lt	0x82e93c <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x201c>
+  82d0c4: 8b0802d7     	add	x23, x22, x8
+  82d0c8: 394347f5     	ldrb	w21, [sp, #0xd1]
+  82d0cc: aa1603e0     	mov	x0, x22
+  82d0d0: d1005502     	sub	x2, x8, #0x15
+  82d0d4: 2a1503e1     	mov	w1, w21
+  82d0d8: 940c68aa     	bl	0xb47380 <memchr@plt>
+  82d0dc: b400c300     	cbz	x0, 0x82e93c <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x201c>
+  82d0e0: aa0003e8     	mov	x8, x0
+  82d0e4: f84d13e9     	ldur	x9, [sp, #0xd1]
+  82d0e8: a9402c0a     	ldp	x10, x11, [x0]
+  82d0ec: ca090149     	eor	x9, x10, x9
+  82d0f0: f84d93ea     	ldur	x10, [sp, #0xd9]
+  82d0f4: ca0a016a     	eor	x10, x11, x10
+  82d0f8: f840e00b     	ldur	x11, [x0, #0xe]
+  82d0fc: f84df3ec     	ldur	x12, [sp, #0xdf]
+  82d100: ca0c016b     	eor	x11, x11, x12
+  82d104: aa0a0129     	orr	x9, x9, x10
+  82d108: aa0b0129     	orr	x9, x9, x11
+  82d10c: b4001349     	cbz	x9, 0x82d374 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0xa54>
+  82d110: 91000500     	add	x0, x8, #0x1
+  82d114: cb0002e8     	sub	x8, x23, x0
+  82d118: f100551f     	cmp	x8, #0x15
+  82d11c: 54fffdac     	b.gt	0x82d0d0 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x7b0>
+  82d120: 14000607     	b	0x82e93c <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x201c>
+  82d124: b4ffe459     	cbz	x25, 0x82cdac <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x48c>
+  82d128: f9400268     	ldr	x8, [x19]
+  82d12c: f9407d08     	ldr	x8, [x8, #0xf8]
+  82d130: aa1303e0     	mov	x0, x19
+  82d134: aa1903e1     	mov	x1, x25
+  82d138: f9001ff9     	str	x25, [sp, #0x38]
+  82d13c: d63f0100     	blr	x8
+  82d140: f9002be0     	str	x0, [sp, #0x50]
+  82d144: d2966328     	mov	x8, #0xb319
+  82d148: f2b2a388     	movk	x8, #0x951c, lsl #16
+  82d14c: f2c24fa8     	movk	x8, #0x127d, lsl #32
+  82d150: f2f71e88     	movk	x8, #0xb8f4, lsl #48
+  82d154: f9003a88     	str	x8, [x20, #0x70]
+  82d158: 52800fe8     	mov	w8, #0x7f
+  82d15c: 3818e3a8     	sturb	w8, [x29, #-0x72]
+  82d160: 529126e9     	mov	w9, #0x8937
+  82d164: 7818c3a9     	sturh	w9, [x29, #-0x74]
+  82d168: 528be729     	mov	w9, #0x5f39
+  82d16c: 72b67609     	movk	w9, #0xb3b0, lsl #16
+  82d170: b81883a9     	stur	w9, [x29, #-0x78]
+  82d174: d289d649     	mov	x9, #0x4eb2
+  82d178: f2a8b509     	movk	x9, #0x45a8, lsl #16
+  82d17c: f2d5e389     	movk	x9, #0xaf1c, lsl #32
+  82d180: f2eaf129     	movk	x9, #0x5789, lsl #48
+  82d184: f807f289     	stur	x9, [x20, #0x7f]
+  82d188: 3819d3a8     	sturb	w8, [x29, #-0x63]
+  82d18c: 52835a28     	mov	w8, #0x1ad1
+  82d190: 7808b288     	sturh	w8, [x20, #0x8b]
+  82d194: 529f5a48     	mov	w8, #0xfad2
+  82d198: 72a8ace8     	movk	w8, #0x4567, lsl #16
+  82d19c: b8087288     	stur	w8, [x20, #0x87]
+  82d1a0: f9006bff     	str	xzr, [sp, #0xd0]
+  82d1a4: f9406be8     	ldr	x8, [sp, #0xd0]
+  82d1a8: f100391f     	cmp	x8, #0xe
+  82d1ac: 54000268     	b.hi	0x82d1f8 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x8d8>
+  82d1b0: d10203a8     	sub	x8, x29, #0x80
+  82d1b4: d103c3a9     	sub	x9, x29, #0xf0
+  82d1b8: f9406bea     	ldr	x10, [sp, #0xd0]
+  82d1bc: 386a690a     	ldrb	w10, [x8, x10]
+  82d1c0: f9406beb     	ldr	x11, [sp, #0xd0]
+  82d1c4: 8b0b010b     	add	x11, x8, x11
+  82d1c8: 39403d6b     	ldrb	w11, [x11, #0xf]
+  82d1cc: 4b0b014a     	sub	w10, w10, w11
+  82d1d0: 381c03aa     	sturb	w10, [x29, #-0x40]
+  82d1d4: 385c03aa     	ldurb	w10, [x29, #-0x40]
+  82d1d8: f9406beb     	ldr	x11, [sp, #0xd0]
+  82d1dc: 382b692a     	strb	w10, [x9, x11]
+  82d1e0: f9406bea     	ldr	x10, [sp, #0xd0]
+  82d1e4: 9100054a     	add	x10, x10, #0x1
+  82d1e8: f9006bea     	str	x10, [sp, #0xd0]
+  82d1ec: f9406bea     	ldr	x10, [sp, #0xd0]
+  82d1f0: f1003d5f     	cmp	x10, #0xf
+  82d1f4: 54fffe23     	b.lo	0x82d1b8 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x898>
+  82d1f8: f85103a8     	ldur	x8, [x29, #-0xf0]
+  82d1fc: f8406289     	ldur	x9, [x20, #0x6]
+  82d200: f0ffc7ea     	adrp	x10, 0x12c000 <_ZNSt6__ndk16chrono12steady_clock9is_steadyE+0x2845>
+  82d204: 3dc12140     	ldr	q0, [x10, #0x480]
+  82d208: 3c9103a0     	stur	q0, [x29, #-0xf0]
+  82d20c: 90ffc80a     	adrp	x10, 0x12d000 <_ZNSt6__ndk16chrono12steady_clock9is_steadyE+0x3845>
+  82d210: 90ffc7eb     	adrp	x11, 0x129000 <_ZNSt6__ndk16chrono12system_clock9is_steadyE+0x74204>
+  82d214: 3dc3ed40     	ldr	q0, [x10, #0xfb0]
+  82d218: 3dc23561     	ldr	q1, [x11, #0x8d0]
+  82d21c: ad008680     	stp	q0, q1, [x20, #0x10]
+  82d220: d0ffca2a     	adrp	x10, 0x173000 <_ZTSFbvE+0x1d5>
+  82d224: 910ee14a     	add	x10, x10, #0x3b8
+  82d228: ad400540     	ldp	q0, q1, [x10]
+  82d22c: 3c836280     	stur	q0, [x20, #0x36]
+  82d230: 3dc00940     	ldr	q0, [x10, #0x20]
+  82d234: 3c856280     	stur	q0, [x20, #0x56]
+  82d238: 5280038b     	mov	w11, #0x1c
+  82d23c: 381a83ab     	sturb	w11, [x29, #-0x58]
+  82d240: f8099288     	stur	x8, [x20, #0x99]
+  82d244: f809f289     	stur	x9, [x20, #0x9f]
+  82d248: 5285a6c8     	mov	w8, #0x2d36
+  82d24c: 72bf9688     	movk	w8, #0xfcb4, lsl #16
+  82d250: b81403a8     	stur	w8, [x29, #-0xc0]
+  82d254: 52867428     	mov	w8, #0x33a1
+  82d258: 781443a8     	sturh	w8, [x29, #-0xbc]
+  82d25c: 381b73bf     	sturb	wzr, [x29, #-0x49]
+  82d260: f842e148     	ldur	x8, [x10, #0x2e]
+  82d264: f8064288     	stur	x8, [x20, #0x64]
+  82d268: 3c846281     	stur	q1, [x20, #0x46]
+  82d26c: f9005a9f     	str	xzr, [x20, #0xb0]
+  82d270: f9405a88     	ldr	x8, [x20, #0xb0]
+  82d274: f100d51f     	cmp	x8, #0x35
+  82d278: 54000268     	b.hi	0x82d2c4 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x9a4>
+  82d27c: d103c3a8     	sub	x8, x29, #0xf0
+  82d280: 910343e9     	add	x9, sp, #0xd0
+  82d284: f9405a8a     	ldr	x10, [x20, #0xb0]
+  82d288: 386a690a     	ldrb	w10, [x8, x10]
+  82d28c: f9405a8b     	ldr	x11, [x20, #0xb0]
+  82d290: 8b0b010b     	add	x11, x8, x11
+  82d294: 3940d96b     	ldrb	w11, [x11, #0x36]
+  82d298: 4b0b014a     	sub	w10, w10, w11
+  82d29c: 390323ea     	strb	w10, [sp, #0xc8]
+  82d2a0: 394323ea     	ldrb	w10, [sp, #0xc8]
+  82d2a4: f9405a8b     	ldr	x11, [x20, #0xb0]
+  82d2a8: 382b692a     	strb	w10, [x9, x11]
+  82d2ac: f9405a8a     	ldr	x10, [x20, #0xb0]
+  82d2b0: 9100054a     	add	x10, x10, #0x1
+  82d2b4: f9005a8a     	str	x10, [x20, #0xb0]
+  82d2b8: f9405a8a     	ldr	x10, [x20, #0xb0]
+  82d2bc: f100d95f     	cmp	x10, #0x36
+  82d2c0: 54fffe23     	b.lo	0x82d284 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x964>
+  82d2c4: 52800800     	mov	w0, #0x40
+  82d2c8: 940c6812     	bl	0xb47310 <_Znwm@plt>
+  82d2cc: aa0003f7     	mov	x23, x0
+  82d2d0: ad4703e1     	ldp	q1, q0, [sp, #0xe0]
+  82d2d4: ad008001     	stp	q1, q0, [x0, #0x10]
+  82d2d8: d10163a8     	sub	x8, x29, #0x58
+  82d2dc: b2400102     	orr	x2, x8, #0x1
+  82d2e0: 3dc037e0     	ldr	q0, [sp, #0xd0]
+  82d2e4: f84fd3e8     	ldur	x8, [sp, #0xfd]
+  82d2e8: f802d008     	stur	x8, [x0, #0x2d]
+  82d2ec: 3d800000     	str	q0, [x0]
+  82d2f0: f9400268     	ldr	x8, [x19]
+  82d2f4: 3900d41f     	strb	wzr, [x0, #0x35]
+  82d2f8: f9408508     	ldr	x8, [x8, #0x108]
+  82d2fc: aa1303e0     	mov	x0, x19
+  82d300: f9402be1     	ldr	x1, [sp, #0x50]
+  82d304: aa1703e3     	mov	x3, x23
+  82d308: d63f0100     	blr	x8
+  82d30c: aa0003fb     	mov	x27, x0
+  82d310: aa1703e0     	mov	x0, x23
+  82d314: 940c67db     	bl	0xb47280 <_ZdlPv@plt>
+  82d318: 385a83a8     	ldurb	w8, [x29, #-0x58]
+  82d31c: 36000068     	tbz	w8, #0x0, 0x82d328 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0xa08>
+  82d320: f9405680     	ldr	x0, [x20, #0xa8]
+  82d324: 940c67d7     	bl	0xb47280 <_ZdlPv@plt>
+  82d328: f9400268     	ldr	x8, [x19]
+  82d32c: f9439108     	ldr	x8, [x8, #0x720]
+  82d330: aa1303e0     	mov	x0, x19
+  82d334: d63f0100     	blr	x8
+  82d338: 72001c1f     	tst	w0, #0xff
+  82d33c: f9400268     	ldr	x8, [x19]
+  82d340: 54000c40     	b.eq	0x82d4c8 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0xba8>
+  82d344: f9404508     	ldr	x8, [x8, #0x88]
+  82d348: aa1303e0     	mov	x0, x19
+  82d34c: d63f0100     	blr	x8
+  82d350: 2a1f03f6     	mov	w22, wzr
+  82d354: f9402be1     	ldr	x1, [sp, #0x50]
+  82d358: b40011c1     	cbz	x1, 0x82d590 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0xc70>
+  82d35c: f9400268     	ldr	x8, [x19]
+  82d360: f9405d08     	ldr	x8, [x8, #0xb8]
+  82d364: aa1303e0     	mov	x0, x19
+  82d368: d63f0100     	blr	x8
+  82d36c: f9401ff9     	ldr	x25, [sp, #0x38]
+  82d370: 14000089     	b	0x82d594 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0xc74>
+  82d374: 2a1f03e0     	mov	w0, wzr
+  82d378: eb17011f     	cmp	x8, x23
+  82d37c: 5400ae20     	b.eq	0x82e940 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x2020>
+  82d380: cb160108     	sub	x8, x8, x22
+  82d384: b100051f     	cmn	x8, #0x1
+  82d388: 5400adc0     	b.eq	0x82e940 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0x2020>
+  82d38c: 90ffc7e8     	adrp	x8, 0x129000 <_ZNSt6__ndk16chrono12system_clock9is_steadyE+0x74204>
+  82d390: 3dc3a900     	ldr	q0, [x8, #0xea0]
+  82d394: 3c9103a0     	stur	q0, [x29, #-0xf0]
+  82d398: 529f0468     	mov	w8, #0xf823
+  82d39c: 72b9fe48     	movk	w8, #0xcff2, lsl #16
+  82d3a0: b81203a8     	stur	w8, [x29, #-0xe0]
+  82d3a4: 528c3068     	mov	w8, #0x6183
+  82d3a8: 781243a8     	sturh	w8, [x29, #-0xdc]
+  82d3ac: 52801708     	mov	w8, #0xb8
+  82d3b0: d0ffca29     	adrp	x9, 0x173000 <_ZTSFbvE+0x1d5>
+  82d3b4: 9112c129     	add	x9, x9, #0x4b0
+  82d3b8: 3dc00120     	ldr	q0, [x9]
+  82d3bc: 3c817280     	stur	q0, [x20, #0x17]
+  82d3c0: 381263a8     	sturb	w8, [x29, #-0xda]
+  82d3c4: f840f128     	ldur	x8, [x9, #0xf]
+  82d3c8: f8026288     	stur	x8, [x20, #0x26]
+  82d3cc: f9005bff     	str	xzr, [sp, #0xb0]
+  82d3d0: f9405be8     	ldr	x8, [sp, #0xb0]
+  82d3d4: f100591f     	cmp	x8, #0x16
+  82d3d8: 54000268     	b.hi	0x82d424 <Java_xyz_aethersx2_android_NativeLibrary_initialize+0xb04>
+  82d3dc: d103c3a8     	sub	x8, x29, #0xf0
+  82d3e0: d10203a9     	sub	x9, x29, #0x80
+  82d3e4: f9405bea     	ldr	x10, [sp, #0xb0]
+  82d3e8: 386a690a     	ldrb	w10, [x8, x10]
+  82d3ec: f9405beb     	ldr	x11, [sp, #0xb0]
+  82d3f0: 8b0b010b     	add	x11, x8, x11
+  82d3f4: 39405d6b     	ldrb	w11, [x11, #0x17]
+  82d3f8: 4b0b014a     	sub	w10, w10, w11
+  82d3fc: 381a83aa     	sturb	w10, [x29, #-0x58]

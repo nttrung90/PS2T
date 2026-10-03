@@ -11,13 +11,13 @@ android {
 
     defaultConfig {
         applicationId = "com.ps2t.emulator"
-        minSdk = 31
-        targetSdk = 36
-        versionCode = 1
-        versionName = "1.0.0"
+        minSdk = 26
+        targetSdk = 35
+        versionCode = 2
+        versionName = "0.2.0"
 
         ndk {
-            abiFilters += setOf("arm64-v8a", "x86_64")
+            abiFilters += setOf("arm64-v8a")
         }
 
         externalNativeBuild {
@@ -70,6 +70,7 @@ android {
     sourceSets {
         getByName("main") {
             java.srcDirs("src/main/kotlin")
+            jniLibs.srcDirs("src/main/jniLibs")
         }
     }
 }
@@ -81,4 +82,5 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.10.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.7")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.1")
+    implementation("androidx.preference:preference-ktx:1.2.1")
 }

@@ -109,10 +109,10 @@ class PS2TouchControllerView @JvmOverloads constructor(
         typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
     }
 
-    // Watermark "DamonPS2 PRO" ở góc trên bên trái
+    // Watermark ở góc trên bên trái
     private val watermarkPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-        color = Color.argb(220, 255, 255, 255)
-        textSize = 34f
+        color = Color.argb(100, 220, 230, 245)
+        textSize = 16f
         typeface = Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL)
     }
 
@@ -446,8 +446,8 @@ class PS2TouchControllerView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        // 1. Vẽ Watermark "DamonPS2 PRO" góc trên bên trái khớp vị trí ảnh mẫu
-        canvas.drawText("DamonPS2 PRO", 20f, 36f, watermarkPaint)
+        // 1. Vẽ Watermark nhỏ gọn ở góc trên bên trái
+        canvas.drawText("PS2T EMULATOR", 20f, 26f, watermarkPaint)
 
         // 2. Vẽ hai cần Analog (Left & Right)
         drawAnalogStick(canvas, leftStick)

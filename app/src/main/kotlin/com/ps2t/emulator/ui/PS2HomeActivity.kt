@@ -60,10 +60,18 @@ class PS2HomeActivity : AppCompatActivity() {
         if (uri != null) {
             val imported = biosManager.importBiosFromUri(uri)
             if (imported != null) {
-                Toast.makeText(this, getString(R.string.toast_bios_imported, imported.displayName), Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Đã nạp BIOS PS2 thành công: ${imported.displayName}", Toast.LENGTH_SHORT).show()
                 updateBiosUI()
             } else {
-                Toast.makeText(this, "Không thể đọc tệp BIOS đã chọn", Toast.LENGTH_SHORT).show()
+                androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Tệp BIOS không hợp lệ")
+                    .setMessage("Tệp bạn chọn không phải là tệp BIOS hợp lệ của PlayStation 2 (hoặc bị lỗi).\n\nNetherSX2 yêu cầu bản dump BIOS PS2 thật (.bin dung lượng ~4MB từ máy PS2 như SCPH-70012, SCPH-39001...).")
+                    .setPositiveButton("Thử lại") { _, _ ->
+                        btnSelectBios.performClick()
+                    }
+                    .setNegativeButton("Đóng", null)
+                    .show()
+                updateBiosUI()
             }
         }
     }
@@ -72,6 +80,12 @@ class PS2HomeActivity : AppCompatActivity() {
         ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
         if (uri != null) {
+            try {
+                contentResolver.takePersistableUriPermission(
+                    uri,
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (_: Exception) {}
             val title = getFileNameFromUri(uri) ?: "game.iso"
             prefs.lastGameUri = uri.toString()
             prefs.lastGameTitle = title
@@ -88,13 +102,53 @@ class PS2HomeActivity : AppCompatActivity() {
         biosManager = BiosManager(this)
         memcardManager = MemcardManager(this)
 
+        // Kiểm tra và hiển thị log lỗi nếu lần trước bị crash
+        com.ps2t.emulator.core.CrashHandler.getLatestCrashLog(this)?.let { crashText ->
+            try {
+                androidx.appcompat.app.AlertDialog.Builder(this)
+                    .setTitle("Báo cáo lỗi lần chạy trước")
+                    .setMessage(crashText.take(1500))
+                    .setPositiveButton("Đóng") { _, _ ->
+                        com.ps2t.emulator.core.CrashHandler.clearCrashLog(this)
+                    }
+                    .show()
+            } catch (_: Exception) {}
+        }
+
+        // Khởi tạo NetherSX2 core & assets
+        try {
+            xyz.aethersx2.android.NativeLibrary.initializeOnce(this, false)
+        } catch (t: Throwable) {
+            android.util.Log.e("PS2HomeActivity", "Failed to initialize NativeLibrary", t)
+        }
+
         initViews()
         setupListeners()
+        handleIncomingIntent(intent)
         updateBiosUI()
         updateGameUI()
         updateMemcardsUI()
         updateCoreSettingsSummary()
         loadSavedSettings()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIncomingIntent(intent)
+    }
+
+    private fun handleIncomingIntent(incomingIntent: Intent?) {
+        val data = incomingIntent?.data ?: return
+        try {
+            contentResolver.takePersistableUriPermission(
+                data,
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+        } catch (_: Exception) {}
+        val title = getFileNameFromUri(data) ?: data.lastPathSegment ?: "game.iso"
+        prefs.lastGameUri = data.toString()
+        prefs.lastGameTitle = title
+        updateGameUI()
     }
 
     override fun onResume() {
@@ -145,11 +199,7 @@ class PS2HomeActivity : AppCompatActivity() {
         }
 
         btnSelectGame.setOnClickListener {
-            gamePickerLauncher.launch(arrayOf(
-                "application/octet-stream",
-                "application/x-iso9660-image",
-                "*/*"
-            ))
+            gamePickerLauncher.launch(arrayOf("*/*"))
         }
 
         btnOpenCoreSettings.setOnClickListener {
@@ -218,17 +268,19 @@ class PS2HomeActivity : AppCompatActivity() {
     private fun updateBiosUI() {
         val bios = biosManager.getSelectedBios()
         if (bios != null) {
-            tvBiosStatus.text = getString(R.string.bios_status_ready)
-            tvBiosStatus.setTextColor(ContextCompat.getColor(this, R.color.status_green))
             layoutBiosInfo.visibility = View.VISIBLE
             tvBiosName.text = bios.displayName
             tvBiosDetails.text = "Kích thước: ${bios.sizeFormatted} • Vùng: ${bios.region}"
-            btnSelectBios.text = "Đổi tệp BIOS khác"
+            tvBiosStatus.text = "✓ BIOS PS2 Sẵn Sàng"
+            tvBiosStatus.setTextColor(ContextCompat.getColor(this, R.color.status_green))
+            btnSelectBios.text = "Đổi tệp BIOS (.bin) khác"
         } else {
-            tvBiosStatus.text = getString(R.string.bios_status_missing)
+            layoutBiosInfo.visibility = View.VISIBLE
+            tvBiosName.text = "Chưa nạp BIOS PlayStation 2"
+            tvBiosDetails.text = "NetherSX2 yêu cầu BIOS PS2 gốc (.bin ~4MB, ví dụ: SCPH-70012, SCPH-39001...) để khởi động game."
+            tvBiosStatus.text = "⚠ Thiếu tệp BIOS PS2"
             tvBiosStatus.setTextColor(ContextCompat.getColor(this, R.color.status_red))
-            layoutBiosInfo.visibility = View.GONE
-            btnSelectBios.text = getString(R.string.btn_select_bios)
+            btnSelectBios.text = "Chọn & Nạp BIOS (.bin)"
         }
     }
 
@@ -268,25 +320,50 @@ class PS2HomeActivity : AppCompatActivity() {
     }
 
     private fun launchGame() {
-        val bios = biosManager.getSelectedBios()
-        if (bios == null) {
-            Toast.makeText(this, getString(R.string.toast_need_bios), Toast.LENGTH_LONG).show()
-            return
-        }
-
         val gameUri = prefs.lastGameUri
-        if (gameUri == null) {
+        if (gameUri.isNullOrEmpty()) {
             Toast.makeText(this, getString(R.string.toast_need_game), Toast.LENGTH_LONG).show()
             return
         }
 
+        val bios = biosManager.getSelectedBios()
+        if (bios == null) {
+            androidx.appcompat.app.AlertDialog.Builder(this)
+                .setTitle("Thiếu tệp BIOS PlayStation 2")
+                .setMessage("Trình giả lập NetherSX2 cần tệp BIOS gốc của máy PS2 (.bin dung lượng ~4MB, ví dụ: SCPH-70012, SCPH-39001...) để khởi chạy CPU Emotion Engine và nạp đĩa game.\n\nBạn có muốn chọn tệp BIOS ngay bây giờ không?")
+                .setPositiveButton("Chọn tệp BIOS") { _, _ ->
+                    biosPickerLauncher.launch(arrayOf(
+                        "application/octet-stream",
+                        "application/x-bin",
+                        "*/*"
+                    ))
+                }
+                .setNegativeButton("Hủy", null)
+                .show()
+            return
+        }
+
+        Toast.makeText(this, getString(R.string.toast_launching_game), Toast.LENGTH_SHORT).show()
+
+        val parsedUri = Uri.parse(gameUri)
         val intent = Intent(this, PS2EmulatorActivity::class.java).apply {
+            data = parsedUri
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             putExtra(PS2EmulatorActivity.EXTRA_GAME_URI, gameUri)
-            putExtra(PS2EmulatorActivity.EXTRA_BIOS_PATH, bios.file.absolutePath)
+            putExtra(PS2EmulatorActivity.EXTRA_GAME_TITLE, prefs.lastGameTitle ?: "game.iso")
+            putExtra(PS2EmulatorActivity.EXTRA_BIOS_PATH, bios.file.name)
             putExtra(PS2EmulatorActivity.EXTRA_ASPECT_RATIO, prefs.aspectRatio)
             putExtra(PS2EmulatorActivity.EXTRA_FAST_BOOT, prefs.isFastBoot)
         }
-        startActivity(intent)
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(
+                this,
+                getString(R.string.error_launch_failed, e.localizedMessage ?: "Unknown error"),
+                Toast.LENGTH_LONG
+            ).show()
+        }
     }
 
     private fun getFileNameFromUri(uri: Uri): String? {

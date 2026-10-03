@@ -30,5 +30,5 @@
     <color name="controller_fill">#2A000000</color>
     <color name="controller_pressed_fill">#66FFFFFF</color>
     <color name="controller_text">#CCFFFFFF</color>
-    <color name="ic_launcher_background">#FF000000</color>
+    <color name="ic_launcher_background">#FFEBE9F6</color>
 </resources>

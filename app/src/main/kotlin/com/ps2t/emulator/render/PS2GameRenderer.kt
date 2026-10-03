@@ -19,6 +19,8 @@ class PS2GameRenderer(
 
     var aspectRatioMode: String = if (isWidescreen) "16:9" else "4:3"
     var onFpsUpdate: ((fps: Float, vps: Float) -> Unit)? = null
+    var coreBridge: com.ps2t.emulator.core.PS2CoreBridge? = null
+    private var frameIndex: Long = 0L
 
     private var program: Int = 0
     private var textureId: Int = 0
@@ -29,8 +31,9 @@ class PS2GameRenderer(
     private var frameCount = 0
 
     // Quản lý khung hình PS2 (640x448 chuẩn NTSC PS2)
-    private var frameBuffer: ByteBuffer = ByteBuffer.allocateDirect(frameWidth * frameHeight * 4)
+    val directFrameBuffer: ByteBuffer = ByteBuffer.allocateDirect(frameWidth * frameHeight * 4)
         .order(ByteOrder.nativeOrder())
+    private var frameBuffer: ByteBuffer = directFrameBuffer
 
     @Volatile
     private var frameReady = false
@@ -104,6 +107,14 @@ class PS2GameRenderer(
         }
 
         if (program == 0 || textureId == 0) return
+
+        // Gọi core bridge sinh khung hình mô phỏng game theo thời gian thực
+        coreBridge?.let { bridge ->
+            bridge.stepFrame()
+            frameIndex++
+            bridge.renderFrameToBuffer(frameBuffer, frameWidth, frameHeight, frameIndex)
+            frameReady = true
+        }
 
         GLES30.glUseProgram(program)
 

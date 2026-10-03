@@ -23,9 +23,24 @@ class PS2CoreBridge {
     external fun initEmulator(internalDir: String, biosDir: String): Boolean
 
     /**
-     * Nạp game PS2 (ISO / BIN / ELF) từ đường dẫn hoặc file descriptor.
+     * Nạp game PS2 (ISO / BIN / ELF) từ đường dẫn tệp.
      */
     external fun loadGame(gamePath: String): Boolean
+
+    /**
+     * Nạp game PS2 từ File Descriptor (Storage Access Framework / SAF).
+     */
+    external fun loadGameFd(fd: Int, gameTitle: String, fileSize: Long): Boolean
+
+    /**
+     * Lấy thông tin đĩa game đã nạp: [Tên game, Mã Serial (SLUS/SCES), VMode (NTSC/PAL), Định dạng]
+     */
+    external fun getGameInfo(): Array<String>
+
+    /**
+     * Kết xuất khung hình đồ họa giả lập thời gian thực trực tiếp vào Direct ByteBuffer của Renderer.
+     */
+    external fun renderFrameToBuffer(buffer: java.nio.ByteBuffer, width: Int, height: Int, frameIndex: Long): Boolean
 
     /**
      * Cập nhật trạng thái tức thì của tay cầm DualShock 2.
