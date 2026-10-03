@@ -39,6 +39,69 @@ class FileHelper(private val context: Context) {
         fun format(format: String, vararg args: Any?): String {
             return String.format(format, *args)
         }
+
+        /**
+         * Port từ NetherSX2 gốc: ánh xạ storage type trong DocumentsContract documentId
+         * (ví dụ "primary", hoặc UUID của thẻ SD) sang đường dẫn gốc trên filesystem.
+         * Trả về null nếu không xác định được.
+         */
+        @JvmStatic
+        fun getStorageBasePath(context: Context, type: String?): String? {
+            if (type.isNullOrEmpty()) return null
+            try {
+                val sm = context.getSystemService(Context.STORAGE_SERVICE) as? android.os.storage.StorageManager
+                if (sm != null) {
+                    for (vol in sm.storageVolumes) {
+                        try {
+                            if (type == "primary" && vol.isPrimary) {
+                                vol.directory?.absolutePath?.let { return it }
+                            } else if (type == vol.uuid) {
+                                vol.directory?.absolutePath?.let { return it }
+                            }
+                        } catch (_: Exception) {}
+                    }
+                }
+            } catch (_: Exception) {}
+            // Fallback cho bộ nhớ chính
+            return if (type == "primary") {
+                try {
+                    android.os.Environment.getExternalStorageDirectory()?.absolutePath
+                } catch (_: Exception) {
+                    null
+                }
+            } else {
+                null
+            }
+        }
+
+        /**
+         * Port từ NetherSX2 gốc: chuyển content:// URI của DocumentsProvider
+         * (ví dụ content://com.android.externalstorage.documents/document/primary%3ADownload%2Fgame.iso)
+         * thành đường dẫn file thật trên filesystem (ví dụ /storage/emulated/0/Download/game.iso).
+         * Trả về null nếu URI không resolve được (ví dụ DownloadsProvider, Google Drive...).
+         */
+        @JvmStatic
+        fun getFullPathFromUri(uri: Uri, context: Context): String? {
+            val basePath: String = try {
+                val docId = android.provider.DocumentsContract.getDocumentId(uri)
+                val type = docId.split(":").getOrNull(0)
+                getStorageBasePath(context, type)?.trimEnd('/')?.takeIf { it.isNotEmpty() }
+                    ?: return null
+            } catch (_: Exception) {
+                return null
+            }
+
+            var relPath: String = try {
+                val docId = android.provider.DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":")
+                if (split.size >= 2 && split[1] != null) split[1] else "/"
+            } catch (_: Exception) {
+                "/"
+            }
+            relPath = relPath.trimEnd('/')
+            if (relPath.isEmpty()) return basePath
+            return if (relPath.startsWith("/")) basePath + relPath else "$basePath/$relPath"
+        }
     }
 
     fun statFile(path: String): StatResult? {

@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.OpenableColumns
 import android.util.Log
 import android.view.InputDevice
 import android.view.KeyEvent
@@ -15,6 +16,8 @@ import android.view.SurfaceView
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.FrameLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -113,14 +116,12 @@ class PS2EmulatorActivity : AppCompatActivity(), SurfaceHolder.Callback {
         val initialGameTitle = intent?.getStringExtra(EXTRA_GAME_TITLE) ?: "PS2 Game"
         tvGameBannerTitle.text = initialGameTitle
 
+        // Lấy URI game; việc phân giải đường dẫn thật và khởi động emulation
+        // được thực hiện ở cuối onCreate (prepareAndStartGame).
         val uri = if (!gameUriStr.isNullOrEmpty()) {
             Uri.parse(gameUriStr)
         } else {
             intent?.data
-        }
-
-        if (uri != null) {
-            prepareAndSetGamePath(uri)
         }
 
         // Cấu hình BIOS đường dẫn cho PCSX2 Core
@@ -166,8 +167,15 @@ class PS2EmulatorActivity : AppCompatActivity(), SurfaceHolder.Callback {
         applyAllCoreSettings()
         NativeLibrary.applySettings()
 
-        // Khởi động Emulation Thread theo chu trình chuẩn của NetherSX2
-        startEmulationThread()
+        // Phân giải URI game thành đường dẫn file thật rồi mới khởi động Emulation Thread.
+        // Native core chỉ boot ổn định từ đường dẫn filesystem thật, không phải content:// URI.
+        if (uri != null) {
+            prepareAndStartGame(uri)
+        } else {
+            Log.e(TAG, "No game URI provided to start emulation!")
+            Toast.makeText(this, "Chưa chọn file game!", Toast.LENGTH_SHORT).show()
+            finish()
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -327,7 +335,35 @@ class PS2EmulatorActivity : AppCompatActivity(), SurfaceHolder.Callback {
         }
     }
 
-    private fun prepareAndSetGamePath(uri: Uri) {
+    /**
+     * Chuẩn bị đường dẫn game rồi khởi động giả lập.
+     *
+     * Nguyên nhân gốc của lỗi "không boot được file .iso": bản cũ truyền thẳng chuỗi
+     * content:// URI (từ Storage Access Framework) cho native core. Native core của
+     * NetherSX2 boot ổn định nhất từ đường dẫn file thật trên filesystem (đúng như cách
+     * bản NetherSX2 gốc nạp game từ game list). Hàm này phân giải URI thành đường dẫn
+     * thật trước khi gọi runVMThread:
+     *  - Bước 1 (nhanh): file:// hoặc content:// resolve được qua DocumentsContract
+     *    (FileHelper.getFullPathFromUri, port từ bản gốc) -> dùng trực tiếp.
+     *  - Bước 2 (chậm): content:// không resolve được (DownloadsProvider, Drive...)
+     *    -> sao chép vào thư mục riêng của app (có dialog tiến trình), rồi boot từ bản sao.
+     */
+    private fun prepareAndStartGame(uri: Uri) {
+        val directPath = resolveDirectGamePath(uri)
+        if (directPath != null) {
+            currentGamePath = directPath
+            Log.i(TAG, "Game path (direct): $currentGamePath")
+            startEmulationThread()
+            return
+        }
+        copyGameToPrivateStorageAsync(uri)
+    }
+
+    /**
+     * Thử lấy đường dẫn file thật, đọc được trực tiếp mà không cần sao chép.
+     * Trả về null nếu không lấy được.
+     */
+    private fun resolveDirectGamePath(uri: Uri): String? {
         if (uri.scheme == "content") {
             try {
                 contentResolver.takePersistableUriPermission(
@@ -335,12 +371,186 @@ class PS2EmulatorActivity : AppCompatActivity(), SurfaceHolder.Callback {
                     Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
             } catch (_: Exception) {}
-            currentGamePath = uri.toString()
-        } else {
-            currentGamePath = uri.path ?: uri.toString()
+            // Port từ NetherSX2 gốc: content://.../document/primary:Download/game.iso
+            // -> /storage/emulated/0/Download/game.iso
+            val realPath = try {
+                xyz.aethersx2.android.FileHelper.getFullPathFromUri(uri, this)
+            } catch (_: Exception) {
+                null
+            }
+            if (!realPath.isNullOrEmpty()) {
+                val f = File(realPath)
+                if (f.isFile && f.canRead()) {
+                    return f.absolutePath
+                }
+                Log.w(TAG, "Resolved path is not readable: $realPath")
+            }
+            return null
+        }
+        val p = uri.path
+        if (!p.isNullOrEmpty()) {
+            val f = File(p)
+            if (f.isFile && f.canRead()) {
+                return f.absolutePath
+            }
+        }
+        return null
+    }
+
+    /**
+     * Sao chép nội dung của content:// URI vào thư mục games riêng của app trên luồng
+     * nền, hiển thị tiến trình cho file ISO lớn. Xong thì boot từ bản sao.
+     */
+    private fun copyGameToPrivateStorageAsync(uri: Uri) {
+        val density = resources.displayMetrics.density
+        val padding = (20 * density).toInt()
+        val progressBar = ProgressBar(this, null, android.R.attr.progressBarStyleHorizontal).apply {
+            isIndeterminate = true
+        }
+        val container = FrameLayout(this).apply {
+            setPadding(padding, (12 * density).toInt(), padding, (12 * density).toInt())
+            addView(
+                progressBar,
+                FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
+        }
+        val dialog = androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Đang chuẩn bị file game")
+            .setMessage("File game đang được sao chép vào bộ nhớ của ứng dụng để trình giả lập đọc được. Với file ISO lớn, quá trình này có thể mất vài phút, vui lòng đợi...")
+            .setView(container)
+            .setCancelable(false)
+            .create()
+        dialog.show()
+
+        Thread({
+            var destPath: String? = null
+            var failReason = "Không đọc được dữ liệu từ file đã chọn."
+            try {
+                val displayName = getDisplayNameFromUri(uri) ?: "game.iso"
+                destPath = copyUriToGamesDir(uri, displayName) { copied, total ->
+                    runOnUiThread {
+                        if (isFinishing || isDestroyed) return@runOnUiThread
+                        if (total > 0) {
+                            progressBar.isIndeterminate = false
+                            progressBar.max = 100
+                            progressBar.progress = ((copied * 100) / total).toInt().coerceIn(0, 100)
+                        }
+                    }
+                }
+                if (destPath == null) {
+                    failReason = "Không đủ dung lượng trống hoặc file game bị lỗi khi sao chép."
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to copy game file", e)
+                failReason = e.message ?: failReason
+            }
+            runOnUiThread {
+                try {
+                    dialog.dismiss()
+                } catch (_: Exception) {}
+                if (isFinishing || isDestroyed) return@runOnUiThread
+                if (destPath != null) {
+                    currentGamePath = destPath
+                    Log.i(TAG, "Game path (copied): $currentGamePath")
+                    Toast.makeText(this, "Đã chuẩn bị xong file game, đang khởi động...", Toast.LENGTH_SHORT).show()
+                    startEmulationThread()
+                } else {
+                    androidx.appcompat.app.AlertDialog.Builder(this)
+                        .setTitle("Không mở được file game")
+                        .setMessage("Trình giả lập không đọc được file game từ vị trí đã chọn.\n\nChi tiết: $failReason\n\nHãy thử chọn lại file .iso/.bin từ bộ nhớ trong của máy.")
+                        .setCancelable(false)
+                        .setPositiveButton("Quay lại") { _, _ -> finish() }
+                        .show()
+                }
+            }
+        }, "GameCopyThread").start()
+    }
+
+    /**
+     * Sao chép nội dung của content:// URI vào thư mục games riêng của app.
+     * Nếu file cùng tên và cùng dung lượng đã tồn tại thì tái sử dụng, không copy lại.
+     * Trả về đường dẫn file đích, hoặc null khi thất bại.
+     */
+    private fun copyUriToGamesDir(
+        uri: Uri,
+        displayName: String,
+        onProgress: (copied: Long, total: Long) -> Unit
+    ): String? {
+        val gamesDir = File(getExternalFilesDir(null), "games").apply { mkdirs() }
+        val safeName = displayName.replace(Regex("[\\\\/:*?\"<>|]"), "_")
+            .takeIf { it.isNotBlank() } ?: "game.iso"
+        val dest = File(gamesDir, safeName)
+
+        val totalSize: Long = try {
+            contentResolver.openFileDescriptor(uri, "r")?.use { pfd -> pfd.statSize } ?: -1L
+        } catch (_: Exception) {
+            -1L
         }
 
-        Log.i(TAG, "Game path set to: $currentGamePath")
+        // Tái sử dụng bản sao cũ nếu cùng dung lượng (tránh copy lại file ISO nhiều GB)
+        if (dest.exists() && totalSize > 0 && dest.length() == totalSize) {
+            Log.i(TAG, "Reusing previously copied game file: ${dest.absolutePath}")
+            return dest.absolutePath
+        }
+
+        if (totalSize > 0 && gamesDir.usableSpace < totalSize) {
+            Log.e(TAG, "Not enough space to copy game: need $totalSize, free ${gamesDir.usableSpace}")
+            return null
+        }
+
+        try {
+            contentResolver.openInputStream(uri)?.use { input ->
+                dest.outputStream().use { output ->
+                    val buf = ByteArray(1024 * 1024)
+                    var copied = 0L
+                    while (true) {
+                        val n = input.read(buf)
+                        if (n <= 0) break
+                        output.write(buf, 0, n)
+                        copied += n
+                        onProgress(copied, totalSize)
+                    }
+                    output.flush()
+                }
+            } ?: return null
+        } catch (e: Exception) {
+            Log.e(TAG, "Copy failed, removing partial file", e)
+            try {
+                dest.delete()
+            } catch (_: Exception) {}
+            return null
+        }
+
+        if (!dest.exists() || (totalSize > 0 && dest.length() != totalSize)) {
+            try {
+                dest.delete()
+            } catch (_: Exception) {}
+            return null
+        }
+        return dest.absolutePath
+    }
+
+    private fun getDisplayNameFromUri(uri: Uri): String? {
+        if (uri.scheme != "content") {
+            return uri.lastPathSegment?.substringAfterLast('/')
+        }
+        return try {
+            contentResolver.query(
+                uri,
+                arrayOf(OpenableColumns.DISPLAY_NAME),
+                null, null, null
+            )?.use { c ->
+                if (c.moveToFirst()) {
+                    val idx = c.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                    if (idx >= 0) c.getString(idx) else null
+                } else null
+            }
+        } catch (_: Exception) {
+            null
+        }
     }
 
     private fun applyAllCoreSettings() {
