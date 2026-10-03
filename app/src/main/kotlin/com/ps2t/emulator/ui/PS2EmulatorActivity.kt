@@ -604,9 +604,23 @@ class PS2EmulatorActivity : AppCompatActivity(), SurfaceHolder.Callback {
         }
 
         Log.i(TAG, "Starting emulation thread for: $currentGamePath")
-        NativeLibrary.startEmulationThread(this, currentGamePath, null)
+        // Đồng bộ với VM thread đúng như bản NetherSX2 gốc: sau khi start thread,
+        // UI thread đợi (tối đa 15s) cho VM báo onVMStarting (NativeLibrary.onVMStarting
+        // sẽ gọi notifyAll). Việc này ngăn các lệnh native từ UI thread (changeSurface,
+        // pauseVM...) đua với quá trình init ban đầu của VM thread trong native core,
+        // vốn là nguyên nhân khiến VM kẹt ở "Đang nạp Virtual Machine & EE Core...".
+        synchronized(this) {
+            NativeLibrary.startEmulationThread(this, currentGamePath, null)
+            try {
+                (this as java.lang.Object).wait(15000)
+            } catch (e: InterruptedException) {
+                Log.w(TAG, "Interrupted while waiting for VM to start", e)
+            }
+        }
+        Log.i(TAG, "VM start signal received (or timeout), continuing.")
 
-        // Nếu surface đã có sẵn, cập nhật ngay cho lõi native
+        // Nếu surface đã có sẵn, cập nhật ngay cho lõi native (lúc này VM đã qua
+        // giai đoạn init ban đầu nên an toàn).
         if (surfaceView.holder.surface.isValid) {
             val width = surfaceView.width.takeIf { it > 0 } ?: 1280
             val height = surfaceView.height.takeIf { it > 0 } ?: 720
@@ -631,6 +645,12 @@ class PS2EmulatorActivity : AppCompatActivity(), SurfaceHolder.Callback {
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
+        // Như bản NetherSX2 gốc: chỉ gửi surface khi emulation thread đang chạy,
+        // tránh gọi native changeSurface trong lúc VM thread chưa init xong.
+        if (!NativeLibrary.hasEmulationThread()) {
+            Log.i(TAG, "surfaceChanged: no emulation thread running, ignoring")
+            return
+        }
         val refreshRate = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             display?.refreshRate ?: 60f
         } else {
@@ -646,7 +666,9 @@ class PS2EmulatorActivity : AppCompatActivity(), SurfaceHolder.Callback {
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         Log.i(TAG, "Surface destroyed")
         isSurfaceReady = false
-        NativeLibrary.changeSurface(null, 0, 0, 0f)
+        if (NativeLibrary.hasEmulationThread()) {
+            NativeLibrary.changeSurface(null, 0, 0, 0f)
+        }
     }
 
     // --- Input Dispatching ---
