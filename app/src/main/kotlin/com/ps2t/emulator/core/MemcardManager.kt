@@ -10,7 +10,12 @@ import java.io.RandomAccessFile
  */
 class MemcardManager(context: Context) {
 
-    val memcardDir: File = File(context.filesDir, "memcards").apply { mkdirs() }
+    // Dùng dataDir của NativeLibrary (external) để nhất quán với native core
+    // (Folders/MemoryCards). Fallback về filesDir nếu chưa initialize.
+    val memcardDir: File = File(
+        xyz.aethersx2.android.NativeLibrary.getDataDirectory().ifEmpty { context.filesDir.absolutePath },
+        "memcards"
+    ).apply { mkdirs() }
 
     // Kích thước chuẩn của thẻ nhớ 8MB PS2 (kèm spare area = 8,650,752 bytes)
     companion object {

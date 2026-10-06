@@ -512,41 +512,39 @@ object NativeLibrary {
                 }
             } catch (_: Exception) {}
 
-            // Lưu vào thư mục bios nội bộ (internal) để đảm bảo POSIX I/O không bị giới hạn
+            // Lưu BIOS vào external (nơi native core tìm) và internal (tương thích cũ).
+            // Ưu tiên external để khớp với dataDir dùng trong initializeOnce.
+            val extBase = context.getExternalFilesDir(null) ?: context.filesDir
+            val extBiosDir = File(extBase, "bios").apply { mkdirs() }
             val internalBiosDir = File(context.filesDir, "bios").apply { mkdirs() }
+
+            val extCrcFile = File(extBiosDir, crcHex)
+            extCrcFile.writeBytes(bytes)
             val internalCrcFile = File(internalBiosDir, crcHex)
-            internalCrcFile.writeBytes(bytes)
+            if (internalCrcFile.absolutePath != extCrcFile.absolutePath) {
+                try { internalCrcFile.writeBytes(bytes) } catch (_: Exception) {}
+            }
 
             if (!originalName.isNullOrEmpty() && originalName != crcHex) {
                 try {
+                    File(extBiosDir, originalName!!).writeBytes(bytes)
                     File(internalBiosDir, originalName!!).writeBytes(bytes)
                 } catch (_: Exception) {}
             }
 
-            // Đồng thời sao chép sang thư mục externalFilesDir nếu có
-            context.getExternalFilesDir(null)?.let { ext ->
-                val extBiosDir = File(ext, "bios").apply { mkdirs() }
-                try {
-                    File(extBiosDir, crcHex).writeBytes(bytes)
-                    if (!originalName.isNullOrEmpty() && originalName != crcHex) {
-                        File(extBiosDir, originalName!!).writeBytes(bytes)
-                    }
-                } catch (_: Exception) {}
-            }
-
             // Kiểm tra tính hợp lệ bằng lõi native getBIOSDescription
-            val desc = getBIOSDescription(internalCrcFile.absolutePath)
+            val desc = getBIOSDescription(extCrcFile.absolutePath)
             if (desc.isNullOrEmpty()) {
-                Log.e(TAG, "Lõi NetherSX2 không nhận diện được BIOS: ${internalCrcFile.absolutePath}")
-                internalCrcFile.delete()
+                Log.e(TAG, "Lõi NetherSX2 không nhận diện được BIOS: ${extCrcFile.absolutePath}")
+                extCrcFile.delete()
                 return false
             }
 
             // Lưu cấu hình Folders/Bios và Filenames/BIOS vào SharedPreferences chuẩn
             androidx.preference.PreferenceManager.getDefaultSharedPreferences(context)
                 .edit()
-                .putString("Folders/Bios", internalBiosDir.absolutePath)
-                .putString("Filenames/BIOS", internalCrcFile.name)
+                .putString("Folders/Bios", extBiosDir.absolutePath)
+                .putString("Filenames/BIOS", extCrcFile.name)
                 .commit()
 
             applySettings()
@@ -598,46 +596,50 @@ object NativeLibrary {
             return false
         }
 
-        // Ưu tiên filesDir nội bộ để native POSIX open/stat/mmap luôn hoạt động trơn tru không bị Scoped Storage chặn
-        val internalBase = context.filesDir
+        // Dùng external files dir như bản gốc NetherSX2. libemucore.so native
+        // initialize() chỉ thành công với external path; dùng internal filesDir
+        // khiến native trả về false và VM crash (SIGSEGV) khi boot.
+        // getExternalFilesDir() là app-specific nên không cần quyền và không bị Scoped Storage chặn.
         val externalBase = context.getExternalFilesDir(null)
-        mDataDirectory = internalBase.absolutePath
+        val internalBase = context.filesDir
+        val baseDir = externalBase ?: internalBase
+        mDataDirectory = baseDir.absolutePath
 
         // Đảm bảo các thư mục cần thiết đều tồn tại trên cả bộ nhớ trong và ngoài
+        // (giữ internal để tương thích với dữ liệu cũ đã lưu trước đây)
         listOf("bios", "memcards", "sstates", "covers", "gamesettings", "cheats", "textures").forEach { folder ->
+            File(baseDir, folder).mkdirs()
             File(internalBase, folder).mkdirs()
-            if (externalBase != null) {
-                File(externalBase, folder).mkdirs()
-            }
         }
 
-        // Tự động đồng bộ hóa các tệp BIOS từ external sang internal nếu có
-        if (externalBase != null) {
-            val extBiosDir = File(externalBase, "bios")
-            val intBiosDir = File(internalBase, "bios")
-            if (extBiosDir.exists()) {
-                extBiosDir.listFiles()?.forEach { file ->
-                    val target = File(intBiosDir, file.name)
-                    if (!target.exists() && file.length() > 0) {
-                        try { file.copyTo(target) } catch (_: Exception) {}
-                    }
+        // Đồng bộ BIOS từ internal sang external (nếu trước đây lưu ở internal)
+        // vì native core sẽ tìm BIOS dưới dataDir (external).
+        val intBiosDir = File(internalBase, "bios")
+        val extBiosDir = File(baseDir, "bios")
+        if (intBiosDir.exists() && intBiosDir != extBiosDir) {
+            intBiosDir.listFiles()?.forEach { file ->
+                val target = File(extBiosDir, file.name)
+                if (!target.exists() && file.length() > 0) {
+                    try { file.copyTo(target) } catch (_: Exception) {}
                 }
             }
         }
 
         // Cấu hình rõ ràng các thư mục Folders/* vào SharedPreferences cho NetherSX2 Core
+        // Dùng baseDir (external) để nhất quán với dataDir truyền xuống native.
         val defaultPrefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(context)
         defaultPrefs.edit()
-            .putString("Folders/Bios", File(internalBase, "bios").absolutePath)
-            .putString("Folders/MemoryCards", File(internalBase, "memcards").absolutePath)
-            .putString("Folders/Savestates", File(internalBase, "sstates").absolutePath)
-            .putString("Folders/Cheats", File(internalBase, "cheats").absolutePath)
-            .putString("Folders/GameSettings", File(internalBase, "gamesettings").absolutePath)
-            .putString("Folders/Covers", File(internalBase, "covers").absolutePath)
-            .putString("Folders/Textures", File(internalBase, "textures").absolutePath)
+            .putString("Folders/Bios", File(baseDir, "bios").absolutePath)
+            .putString("Folders/MemoryCards", File(baseDir, "memcards").absolutePath)
+            .putString("Folders/Savestates", File(baseDir, "sstates").absolutePath)
+            .putString("Folders/Cheats", File(baseDir, "cheats").absolutePath)
+            .putString("Folders/GameSettings", File(baseDir, "gamesettings").absolutePath)
+            .putString("Folders/Covers", File(baseDir, "covers").absolutePath)
+            .putString("Folders/Textures", File(baseDir, "textures").absolutePath)
             .commit()
 
-        val cacheDir = File(context.cacheDir, "xyz.aethersx2.android").apply { mkdirs() }.absolutePath
+        // Bản gốc truyền thẳng getCacheDir(), không tạo subfolder xyz.aethersx2.android
+        val cacheDir = context.cacheDir.absolutePath
         val deviceName = "${Build.MANUFACTURER} ${Build.DEVICE}"
 
         Log.i(TAG, "Initializing NativeLibrary: dataDir=$mDataDirectory, cacheDir=$cacheDir, device=$deviceName")

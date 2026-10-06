@@ -23,16 +23,17 @@ class BiosManager(private val context: Context) {
 
     val biosDir: File
         get() {
-            val dir = File(context.filesDir, "bios").apply { mkdirs() }
-            // Đồng bộ hóa với externalFilesDir nếu có
-            context.getExternalFilesDir(null)?.let { ext ->
-                val extBios = File(ext, "bios")
-                if (extBios.exists()) {
-                    extBios.listFiles()?.forEach { file ->
-                        val target = File(dir, file.name)
-                        if (!target.exists() && file.length() > 0) {
-                            try { file.copyTo(target) } catch (_: Exception) {}
-                        }
+            // Dùng dataDir của NativeLibrary (external) làm vị trí chuẩn,
+            // nhất quán với native initialize(). Vẫn quét internal để tương thích dữ liệu cũ.
+            val base = NativeLibrary.getDataDirectory().ifEmpty { context.filesDir.absolutePath }
+            val dir = File(base, "bios").apply { mkdirs() }
+            // Đồng bộ hóa từ internal filesDir (dữ liệu cũ) nếu có
+            val intBios = File(context.filesDir, "bios")
+            if (intBios.exists() && intBios.absolutePath != dir.absolutePath) {
+                intBios.listFiles()?.forEach { file ->
+                    val target = File(dir, file.name)
+                    if (!target.exists() && file.length() > 0) {
+                        try { file.copyTo(target) } catch (_: Exception) {}
                     }
                 }
             }

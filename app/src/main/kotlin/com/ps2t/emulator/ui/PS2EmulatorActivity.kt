@@ -128,16 +128,16 @@ class PS2EmulatorActivity : AppCompatActivity(), SurfaceHolder.Callback {
         val rawBios = intent?.getStringExtra(EXTRA_BIOS_PATH)
             ?: androidx.preference.PreferenceManager.getDefaultSharedPreferences(this).getString("Filenames/BIOS", "")
 
-        val biosDir = File(filesDir, "bios").apply { mkdirs() }
-        // Đồng bộ nếu có tệp BIOS ở externalFilesDir
-        getExternalFilesDir(null)?.let { ext ->
-            val extBios = File(ext, "bios")
-            if (extBios.exists()) {
-                extBios.listFiles()?.forEach { f ->
-                    val dst = File(biosDir, f.name)
-                    if (!dst.exists() && f.length() > 0) {
-                        try { f.copyTo(dst) } catch (_: Exception) {}
-                    }
+        // Dùng dataDir của NativeLibrary (external) để nhất quán với native initialize().
+        val baseDir = File(xyz.aethersx2.android.NativeLibrary.getDataDirectory().ifEmpty { filesDir.absolutePath })
+        val biosDir = File(baseDir, "bios").apply { mkdirs() }
+        // Đồng bộ nếu có tệp BIOS ở internal filesDir (dữ liệu cũ)
+        val intBios = File(filesDir, "bios")
+        if (intBios.exists() && intBios.absolutePath != biosDir.absolutePath) {
+            intBios.listFiles()?.forEach { f ->
+                val dst = File(biosDir, f.name)
+                if (!dst.exists() && f.length() > 0) {
+                    try { f.copyTo(dst) } catch (_: Exception) {}
                 }
             }
         }
@@ -562,15 +562,17 @@ class PS2EmulatorActivity : AppCompatActivity(), SurfaceHolder.Callback {
         val defaultPrefs = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this)
         val editor = defaultPrefs.edit()
 
-        // Thư mục hệ thống của NetherSX2
-        val biosDir = File(filesDir, "bios").apply { mkdirs() }
+        // Thư mục hệ thống của NetherSX2 — dùng dataDir của NativeLibrary (external)
+        // để nhất quán với native initialize(), không dùng filesDir internal.
+        val sysBase = File(xyz.aethersx2.android.NativeLibrary.getDataDirectory().ifEmpty { filesDir.absolutePath })
+        val biosDir = File(sysBase, "bios").apply { mkdirs() }
         editor.putString("Folders/Bios", biosDir.absolutePath)
-        editor.putString("Folders/MemoryCards", File(filesDir, "memcards").apply { mkdirs() }.absolutePath)
-        editor.putString("Folders/Savestates", File(filesDir, "sstates").apply { mkdirs() }.absolutePath)
-        editor.putString("Folders/Cheats", File(filesDir, "cheats").apply { mkdirs() }.absolutePath)
-        editor.putString("Folders/GameSettings", File(filesDir, "gamesettings").apply { mkdirs() }.absolutePath)
-        editor.putString("Folders/Covers", File(filesDir, "covers").apply { mkdirs() }.absolutePath)
-        editor.putString("Folders/Textures", File(filesDir, "textures").apply { mkdirs() }.absolutePath)
+        editor.putString("Folders/MemoryCards", File(sysBase, "memcards").apply { mkdirs() }.absolutePath)
+        editor.putString("Folders/Savestates", File(sysBase, "sstates").apply { mkdirs() }.absolutePath)
+        editor.putString("Folders/Cheats", File(sysBase, "cheats").apply { mkdirs() }.absolutePath)
+        editor.putString("Folders/GameSettings", File(sysBase, "gamesettings").apply { mkdirs() }.absolutePath)
+        editor.putString("Folders/Covers", File(sysBase, "covers").apply { mkdirs() }.absolutePath)
+        editor.putString("Folders/Textures", File(sysBase, "textures").apply { mkdirs() }.absolutePath)
 
         // Thiết lập EmuCore
         editor.putBoolean("EmuCore/EnableFastBoot", prefs.isFastBoot)

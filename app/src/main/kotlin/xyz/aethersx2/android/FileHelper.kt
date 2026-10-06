@@ -100,7 +100,16 @@ class FileHelper(private val context: Context) {
             }
             relPath = relPath.trimEnd('/')
             if (relPath.isEmpty()) return basePath
-            return if (relPath.startsWith("/")) basePath + relPath else "$basePath/$relPath"
+            // Nếu relPath đã là đường dẫn tuyệt đối (một số provider trả về docId
+            // dạng "primary:/storage/emulated/0/..."), đừng ghép thêm basePath nữa
+            // kẻo thành "/storage/emulated/0/storage/emulated/0/...".
+            if (relPath.startsWith("/")) {
+                if (relPath.startsWith(basePath)) return relPath
+                val f = java.io.File(relPath)
+                if (f.isFile && f.canRead()) return f.absolutePath
+                return basePath + relPath
+            }
+            return "$basePath/$relPath"
         }
     }
 
